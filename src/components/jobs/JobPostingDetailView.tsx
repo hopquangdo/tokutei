@@ -42,12 +42,12 @@ export function JobPostingDetailView({
                 {backLabel}
               </Link>
             </p>
-            <p className="mt-3 text-xs text-zinc-500">ID công việc: {job.id.toUpperCase()}</p>
+            <p className="mt-3 text-xs text-zinc-500">求人ID: {job.id.toUpperCase()}</p>
             <p className="mt-2 text-2xl font-semibold leading-snug text-app-primary">{job.title}</p>
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-              Phân loại công việc: {job.industry}
+              業種: {job.industry}
             </p>
-            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">Đơn vị tuyển dụng: {ownerName}</p>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">採用元: {ownerName}</p>
           </Card>
 
           <Card
@@ -56,16 +56,16 @@ export function JobPostingDetailView({
             }
           >
             <div className="rounded-xl border border-zinc-200/80 bg-zinc-50/70 p-3 dark:border-zinc-800/80 dark:bg-zinc-900/40">
-              <p className="text-xs uppercase tracking-wide text-zinc-500">Thông tin nhanh</p>
-              <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">Lương tháng: {job.salary}</p>
+              <p className="text-xs uppercase tracking-wide text-zinc-500">クイック情報</p>
+              <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">月給: {job.salary}</p>
               <p className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">JLPT: {job.requiredJlpt}</p>
-              <p className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">Loại hợp đồng: {detail.contractType}</p>
+              <p className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">雇用形態: {detail.contractType}</p>
             </div>
             {mode === "agent" && (
               <div className="rounded-xl border border-red-200/80 bg-red-50/80 p-3 dark:border-red-500/30 dark:bg-red-950/30">
-                <p className="text-xs uppercase tracking-wide text-red-700 dark:text-red-200">Phí giới thiệu</p>
-                <p className="mt-2 text-xl font-bold text-red-800 dark:text-red-100">{job.shareCommission} thu nhập năm</p>
-                <p className="mt-1 text-xs text-red-700/90 dark:text-red-200/80">Áp dụng cho hồ sơ đi qua luồng B2B.</p>
+                <p className="text-xs uppercase tracking-wide text-red-700 dark:text-red-200">紹介手数料</p>
+                <p className="mt-2 text-xl font-bold text-red-800 dark:text-red-100">{job.shareCommission}（年収ベース）</p>
+                <p className="mt-1 text-xs text-red-700/90 dark:text-red-200/80">B2B紹介経路の応募に適用されます。</p>
               </div>
             )}
           </Card>
@@ -73,18 +73,18 @@ export function JobPostingDetailView({
           <Card>
             <div className="border-b border-zinc-100 pb-3 dark:border-zinc-800/80">
               <p className="text-xs text-zinc-500">
-                Cập nhật: {detail.updatedAt} · Ngày xuất bản: {detail.publishedAt}
+                更新: {detail.updatedAt} · 公開: {detail.publishedAt}
               </p>
             </div>
             <div className="space-y-4 pt-4">
               <div>
-                <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Thông tin chung</h2>
+                <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">概要</h2>
                 <p className="mt-2 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
                   {detail.workSummary}
                 </p>
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Yêu cầu ứng tuyển</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">応募条件</h3>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-700 dark:text-zinc-300">
                   {detail.requirements.map((item) => (
                     <li key={item}>{item}</li>
@@ -92,7 +92,7 @@ export function JobPostingDetailView({
                 </ul>
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Địa điểm làm việc</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">勤務地</h3>
                 <p className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">{detail.workAddress}</p>
               </div>
             </div>
@@ -104,22 +104,22 @@ export function JobPostingDetailView({
             {mode === "agent" ? (
               <div className="space-y-2">
                 <button type="button" className="app-btn app-btn-primary w-full text-sm">
-                  Tiến cử ứng viên
+                  候補者を紹介
                 </button>
                 <button type="button" className="app-btn app-btn-secondary w-full text-sm">
-                  Sao chép URL
+                  URLをコピー
                 </button>
               </div>
             ) : (
               <div className="space-y-2">
                 <button type="button" className="app-btn app-btn-primary w-full text-sm">
-                  Ứng tuyển ngay
+                  今すぐ応募
                 </button>
                 <button type="button" className="app-btn app-btn-secondary w-full text-sm">
-                  Lưu tin
+                  保存
                 </button>
                 <button type="button" className="app-btn app-btn-secondary w-full text-sm">
-                  Tải JD
+                  JDを取得
                 </button>
               </div>
             )}
@@ -127,14 +127,14 @@ export function JobPostingDetailView({
 
           {mode === "agent" && (
             <Card className="p-3" padding="p-3">
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Ứng viên phù hợp (AI)</h3>
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">おすすめ候補者（AI）</h3>
               <ul className="mt-3 space-y-2">
                 {suggestedCandidates.slice(0, 4).map((c) => (
                   <li key={c.id} className="rounded-lg border border-zinc-200/80 p-2 dark:border-zinc-700/80">
                     <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">{c.name}</p>
                     <p className="mt-0.5 text-[11px] text-zinc-500">JLPT {c.jlpt} · CQI {c.cqiScore}</p>
                     <button type="button" className="mt-2 w-full rounded-md bg-amber-400 px-2 py-1 text-[11px] font-semibold text-zinc-900">
-                      Tiến cử nhanh
+                      すぐ紹介
                     </button>
                   </li>
                 ))}

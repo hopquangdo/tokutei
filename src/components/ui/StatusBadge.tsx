@@ -8,9 +8,9 @@ const styles: Record<LegalStatus, string> = {
 };
 
 const labels: Record<LegalStatus, string> = {
-  ok: "Hợp lệ (Xanh)",
-  warning: "Cảnh báo (Vàng)",
-  reject: "Rủi ro / Không hợp lệ (Đỏ)",
+  ok: "有効（緑）",
+  warning: "警告（黄）",
+  reject: "要確認 / 不適合（赤）",
 };
 
 export function StatusBadge({ status }: { status: LegalStatus }) {

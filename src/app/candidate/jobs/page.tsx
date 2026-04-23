@@ -8,7 +8,7 @@ function JobsPageFallback() {
       className="animate-pulse rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-6 text-sm text-zinc-500 dark:border-zinc-800/80"
       role="status"
     >
-      Đang tải danh sách…
+      一覧を読み込み中…
     </div>
   );
 }

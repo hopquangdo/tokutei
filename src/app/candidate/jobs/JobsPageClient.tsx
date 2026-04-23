@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import type { Job } from "@/lib/types";
 import { getAgent } from "@/lib/mock/seed";
 
-/** Mô tả bổ sung theo từng job — bổ sung trên dữ liệu gốc. */
+/** 各求人の補足説明（シード上に重ねる） */
 const JOB_EXTRAS: Record<
   string,
   {
@@ -18,31 +18,31 @@ const JOB_EXTRAS: Record<
 > = {
   j1: {
     workSummary:
-      "Làm việc tại công trường, lắp dựng cốt thép theo hướng dẫn, tuân thủ an toàn. Ca ngày / có ca đêm.",
+      "現場での鉄筋組立・据付を指示通りに行い、安全に配慮。日勤・夜勤の交代あり。",
     requirements: [
-      "JLPT N4 trở lên",
-      "Tư cách 特定技能1号 — ngành 建設",
-      "Chịu khó, có kinh nghiệm xây dựng được ưu tiên.",
+      "JLPT N4以上",
+      "特定技能1号（建設）",
+      "体力に自信があり建設経験者を優遇。",
     ],
     updatedAt: "18/04/2026",
     publishedAt: "10/04/2026",
   },
   j2: {
     workSummary:
-      "Sản xuất thực phẩm theo dây chuyền, kiểm tra chất lượng, vệ sinh công tác. Môi trường nhà máy lạnh.",
+      "食品ラインの製造、品質チェック、衛生管理。低温度の工場内作業。",
     requirements: [
-      "JLPT N5 trở lên (giao tiếp cơ bản)",
-      "Sức khỏe tốt, đứng làm nhiều giờ",
+      "JLPT N5以上（基礎的な会話）",
+      "立ち仕事に耐えられる方",
     ],
     updatedAt: "20/04/2026",
     publishedAt: "12/04/2026",
   },
   j3: {
     workSummary:
-      "Chăm sóc người cao tuổi tại 有料老人ホーム, hỗ trợ sinh hoạt, theo dõi sức khỏe, ghi chép theo quy trình.",
+      "有料老人ホームでの高齢者ケア、生活支援、健康観察、手順に沿った記録。",
     requirements: [
-      "JLPT N3 trở lên",
-      "Có định hướng 介護 — ưu tiên có chứng chỉ",
+      "JLPT N3以上",
+      "介護志向の方 — 資格保持者歓迎",
     ],
     updatedAt: "21/04/2026",
     publishedAt: "15/04/2026",
@@ -50,17 +50,17 @@ const JOB_EXTRAS: Record<
 };
 
 const defaultExtra = (j: Job) => ({
-  workSummary: `Nội dung công việc theo ngành ${j.industry} tại khu vực ${j.city} (mô tả mẫu).`,
+  workSummary: `${j.industry}分野の業務（${j.city}エリア想定のサンプル）。`,
   requirements: [
-    `JLPT: ${j.requiredJlpt} trở lên`,
-    "Hợp pháp tư cách lưu trú (ứng viên tự rà soát).",
+    `JLPT: ${j.requiredJlpt} 以上`,
+    "在留資格の適合はご自身でご確認ください。",
   ],
   updatedAt: "22/04/2026",
   publishedAt: "01/04/2026",
 });
 
-const LOCATIONS = ["Tất cả", "Tokyo", "Saitama", "Chiba", "Kanagawa"] as const;
-const INDUSTRIES = ["Tất cả", "建設", "食料品製造", "介護", "外食", "その他"] as const;
+const LOCATIONS = ["すべて", "Tokyo", "Saitama", "Chiba", "Kanagawa"] as const;
+const INDUSTRIES = ["すべて", "建設", "食料品製造", "介護", "外食", "その他"] as const;
 
 type JobsPageClientProps = {
   initialJobs: Job[];
@@ -71,8 +71,8 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
   const jobIdFromQuery = searchParams.get("jobId");
   const [focusFlashId, setFocusFlashId] = useState<string | null>(null);
   const [keyword, setKeyword] = useState("");
-  const [location, setLocation] = useState<(typeof LOCATIONS)[number]>("Tất cả");
-  const [industry, setIndustry] = useState<(typeof INDUSTRIES)[number]>("Tất cả");
+  const [location, setLocation] = useState<(typeof LOCATIONS)[number]>("すべて");
+  const [industry, setIndustry] = useState<(typeof INDUSTRIES)[number]>("すべて");
   const [salaryFrom, setSalaryFrom] = useState("");
   const [salaryTo, setSalaryTo] = useState("");
   const [noExp, setNoExp] = useState(false);
@@ -86,8 +86,8 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
         const blob = `${j.title} ${j.industry} ${j.city} ${j.salary}`.toLowerCase();
         if (!blob.includes(kw)) return false;
       }
-      if (location !== "Tất cả" && j.city !== location) return false;
-      if (industry !== "Tất cả" && j.industry !== industry) return false;
+      if (location !== "すべて" && j.city !== location) return false;
+      if (industry !== "すべて" && j.industry !== industry) return false;
       if (newGrad && j.requiredJlpt !== "N5") return false;
       if (noExp) {
         if (!["N5", "N4"].includes(j.requiredJlpt)) return false;
@@ -97,7 +97,7 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
     });
   }, [initialJobs, keyword, location, industry, noExp, newGrad, remote]);
 
-  /** Từ /candidate/applications? → mở đúng tin (scroll + highlight ngắn). */
+  /** /candidate/applications? からの遷移で該当求人をスクロール＆一時ハイライト */
   useEffect(() => {
     if (!jobIdFromQuery) {
       setFocusFlashId(null);
@@ -123,8 +123,8 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
 
   const resetFilters = useCallback(() => {
     setKeyword("");
-    setLocation("Tất cả");
-    setIndustry("Tất cả");
+    setLocation("すべて");
+    setIndustry("すべて");
     setSalaryFrom("");
     setSalaryTo("");
     setNoExp(false);
@@ -137,16 +137,16 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
 
   return (
     <div className="grid w-full min-w-0 grid-cols-1 gap-6 lg:grid-cols-[17rem_1fr] lg:items-start xl:grid-cols-[19rem_1fr]">
-      {/* Cột trái: bộ lọc — sticky trên desktop */}
+      {/* 左: フィルタ（デスクトップでsticky） */}
       <aside className="min-w-0 lg:sticky lg:top-4 lg:max-h-[min(calc(100dvh-5rem),52rem)] lg:overflow-y-auto lg:self-start">
         <div
           className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 shadow-[var(--app-shadow-sm)] dark:border-zinc-800/80 dark:bg-zinc-900/50"
         >
-          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Bộ lọc</h2>
+          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">フィルタ</h2>
           <div className="mt-3 space-y-3">
             <div>
               <label className="app-label" htmlFor="job-kw">
-                Từ khóa
+                キーワード
               </label>
               <input
                 id="job-kw"
@@ -158,7 +158,7 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
             </div>
             <div>
               <label className="app-label" htmlFor="job-loc">
-                Khu vực
+                勤務地
               </label>
               <select
                 id="job-loc"
@@ -175,7 +175,7 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
             </div>
             <div>
               <label className="app-label" htmlFor="job-ind">
-                Ngành nghề
+                業種
               </label>
               <select
                 id="job-ind"
@@ -191,14 +191,14 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
               </select>
             </div>
             <div>
-              <span className="app-label">Mức lương (円/月)</span>
+              <span className="app-label">月額（円）</span>
               <div className="mt-1 flex items-center gap-2">
                 <input
                   value={salaryFrom}
                   onChange={(e) => setSalaryFrom(e.target.value)}
                   className="app-input min-w-0 flex-1"
                   inputMode="numeric"
-                  placeholder="Từ"
+                  placeholder="下限"
                 />
                 <span className="text-zinc-400">—</span>
                 <input
@@ -206,12 +206,12 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                   onChange={(e) => setSalaryTo(e.target.value)}
                   className="app-input min-w-0 flex-1"
                   inputMode="numeric"
-                  placeholder="Đến"
+                  placeholder="上限"
                 />
               </div>
             </div>
             <div className="space-y-2 border-t border-zinc-100 pt-3 dark:border-zinc-800/80">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Điều kiện nhanh</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">クイック条件</p>
               <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-700 dark:text-zinc-200">
                 <input
                   type="checkbox"
@@ -219,7 +219,7 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                   onChange={(e) => setNoExp(e.target.checked)}
                   className="rounded border-zinc-300 text-blue-600 focus:ring-blue-500/30"
                 />
-                Ưu tiên JLPT thấp
+                JLPT低めを優先
               </label>
               <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-700 dark:text-zinc-200">
                 <input
@@ -228,7 +228,7 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                   onChange={(e) => setNewGrad(e.target.checked)}
                   className="rounded border-zinc-300 text-blue-600 focus:ring-blue-500/30"
                 />
-                Chỉ N5
+                N5のみ
               </label>
               <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-700 dark:text-zinc-200">
                 <input
@@ -237,25 +237,25 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                   onChange={(e) => setRemote(e.target.checked)}
                   className="rounded border-zinc-300 text-blue-600 focus:ring-blue-500/30"
                 />
-                Loại trừ công trường 建設 (gợi ý môi trường nhẹ hơn)
+                建設現場を除く（軽作業向けのヒント）
               </label>
             </div>
             <div className="flex flex-col gap-2 border-t border-zinc-100 pt-3 sm:flex-row sm:items-center dark:border-zinc-800/80">
               <button type="button" onClick={resetFilters} className="text-left text-sm text-zinc-500 underline-offset-2 hover:text-[var(--app-primary)] hover:underline">
-                Xóa điều kiện
+                条件をクリア
               </button>
               <p className="text-xs text-zinc-500 sm:ml-auto">
-                Hiển thị <strong className="text-zinc-800 dark:text-zinc-200">{filtered.length}</strong> / {initialJobs.length} tin
+                表示 <strong className="text-zinc-800 dark:text-zinc-200">{filtered.length}</strong> / {initialJobs.length} 件
               </p>
             </div>
             <button type="button" className="app-btn app-btn-primary w-full" onClick={() => {}}>
-              Tìm kiếm
+              この条件で検索
             </button>
           </div>
         </div>
       </aside>
 
-      {/* Cột phải: thanh công cụ + danh sách */}
+      {/* 右: 一覧 */}
       <div className="min-w-0">
         <ul className="space-y-4">
           {filtered.map((j) => {
@@ -275,7 +275,7 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                     <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
                       <span className="font-mono text-zinc-600 dark:text-zinc-400">ID: {j.id.toUpperCase()}</span>
                       <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-200">
-                        JobShare Selection
+                        ジョブシェア選考
                       </span>
                     </div>
                     <h3 className="mt-1.5 text-base font-semibold leading-snug text-[var(--app-primary)]">
@@ -293,13 +293,13 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                   <div className="grid gap-4 p-4 lg:grid-cols-[1fr_13rem] lg:gap-5">
                     <div className="min-w-0 space-y-4">
                       <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Nội dung công việc</p>
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">仕事内容</p>
                         <p className="mt-1.5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
                           {extra.workSummary}
                         </p>
                       </div>
                       <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Điều kiện ứng tuyển</p>
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">応募条件</p>
                         <ul className="mt-1.5 list-inside list-disc space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
                           {extra.requirements.map((r, i) => (
                             <li key={i}>{r}</li>
@@ -307,18 +307,18 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                         </ul>
                       </div>
                       <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-[11px] text-zinc-500">
-                        <span>Cập nhật: {extra.updatedAt}</span>
-                        <span>Đăng tải: {extra.publishedAt}</span>
+                        <span>更新: {extra.updatedAt}</span>
+                        <span>掲載: {extra.publishedAt}</span>
                       </div>
                     </div>
 
                     <div className="flex min-w-0 flex-col gap-3 border-t border-zinc-100 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0 dark:border-zinc-800/80">
                       <div className="space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
                         <p>
-                          <span className="text-zinc-400">Lương tháng</span> — {j.salary}
+                          <span className="text-zinc-400">月給</span> — {j.salary}
                         </p>
                         <p>
-                          <span className="text-zinc-400">Làm việc tại</span> — {j.city}
+                          <span className="text-zinc-400">勤務地</span> — {j.city}
                         </p>
                         <p>
                           <span className="text-zinc-400">JLPT</span> — {j.requiredJlpt}〜
@@ -329,21 +329,21 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                           href={`/candidate/jobs/${j.id}`}
                           className="app-btn app-btn-secondary w-full text-center text-sm"
                         >
-                          Xem chi tiết
+                          詳細を見る
                         </Link>
                         <button
                           type="button"
                           className="app-btn app-btn-secondary w-full text-sm"
-                          title="Lưu tin ưa thích"
+                          title="お気に入りに保存"
                         >
-                          ♡ Lưu
+                          ♡ 保存
                         </button>
                         <button
                           type="button"
                           className="app-btn app-btn-primary w-full text-sm"
-                          title="Tiến cử ứng viên"
+                          title="候補者を紹介"
                         >
-                          Tiến cử ứng viên
+                          候補者を紹介
                         </button>
                       </div>
                     </div>
@@ -356,7 +356,7 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
 
         {filtered.length === 0 && (
           <p className="rounded-xl border border-dashed border-zinc-200 bg-zinc-50/50 px-4 py-8 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800/30">
-            Không có tin phù hợp. Thử xóa bộ lọc hoặc từ khóa khác.
+            該当する求人がありません。条件やキーワードを変えてください。
           </p>
         )}
       </div>

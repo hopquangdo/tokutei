@@ -2,23 +2,17 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { applications, getJob } from "@/lib/mock/seed";
+import { PIPELINE_STAGE_LABEL_JA } from "@/lib/mock/platform-dashboard-data";
 import type { Application, ApplicationClosedReason, PipelineStage } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
 
 const PAGE_SIZE = 3;
 
-const STEP_LABEL: Record<PipelineStage, string> = {
-  sourced: "Nguồn",
-  screening: "Sàng lọc",
-  interview: "Phỏng vấn",
-  offer: "Trúng tuyển",
-  visa: "Visa",
-  onboarded: "Onboard",
-};
+const STEP_LABEL = PIPELINE_STAGE_LABEL_JA;
 
 const CLOSED_LABEL: Record<ApplicationClosedReason, string> = {
-  rejected: "Đã từ chối",
-  withdrawn: "Đã rút hồ sơ",
+  rejected: "不採用",
+  withdrawn: "取り下げ",
 };
 
 /** Chuỗi bước theo từng ứng tuyển: trực tiếp bỏ bước nguồn; tiến cử có thêm bước nguồn. */
@@ -54,7 +48,7 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
       <div
         className="w-full min-w-0"
         role="list"
-        aria-label="Trạng thái: đã hoàn thành onboard"
+        aria-label="状態: 入社手続きまで完了"
       >
         <div className="flex w-full min-w-0 items-center sm:px-0">
           {steps.map((step, i) => (
@@ -85,7 +79,7 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
           ))}
         </div>
         <p className="mt-2.5 text-center text-xs font-medium text-emerald-800 dark:text-emerald-200">
-          Đã qua tất cả bước (onboard) — tính năng theo dõi kết thúc ở đây
+          全段階（入社手続き）を完了 — ここまでが追跡の最終です
         </p>
       </div>
     );
@@ -98,12 +92,12 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
       <div
         className="w-full min-w-0"
         role="list"
-        aria-label={`Ứng tuyển đóng: ${CLOSED_LABEL[failKind]} tại bước ${failStepName}`}
+        aria-label={`応募終了: ${CLOSED_LABEL[failKind]}（${failStepName}）`}
       >
         <p className="mb-2 text-center text-[11px] text-zinc-500 dark:text-zinc-500">
           <span className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
             <span>
-              <span className="text-emerald-600 dark:text-emerald-400">✓</span> Đã qua
+              <span className="text-emerald-600 dark:text-emerald-400">✓</span> 通過
             </span>
             <span aria-hidden>
               ·
@@ -111,20 +105,20 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
             <span>
               {failKind === "rejected" ? (
                 <>
-                  <span className="text-rose-600 dark:text-rose-400">✕</span> Từ chối
+                  <span className="text-rose-600 dark:text-rose-400">✕</span> 不採用
                 </>
               ) : (
                 <>
-                  <span className="text-amber-600 dark:text-amber-400">⏷</span> Rút tại
+                  <span className="text-amber-600 dark:text-amber-400">⏷</span> 取下
                 </>
               )}{" "}
-              bước <strong className="text-zinc-700 dark:text-zinc-200">{failStepName}</strong>
+              段階 <strong className="text-zinc-700 dark:text-zinc-200">{failStepName}</strong>
             </span>
             <span aria-hidden>
               ·
             </span>
             <span>
-              Số còn lại: <span className="text-zinc-400">chưa tới</span>
+              残り: <span className="text-zinc-400">未到達</span>
             </span>
           </span>
         </p>
@@ -168,11 +162,11 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
                   title={
                     isFailed
                       ? failKind === "rejected"
-                        ? `${step.label} — từ chối tại bước này`
-                        : `${step.label} — rút hồ sơ tại bước này`
+                        ? `${step.label} — ここで不採用`
+                        : `${step.label} — ここで取り下げ`
                       : isDone
-                        ? `${step.label} — đã xử lý xong`
-                        : `${step.label} — chưa tới bước này`
+                        ? `${step.label} — 完了`
+                        : `${step.label} — 未到達`
                   }
                 >
                   {isDone ? "✓" : isFailed ? (failKind === "withdrawn" ? "⏷" : "✕") : "·"}
@@ -225,12 +219,12 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
                         : "text-amber-700 dark:text-amber-300")
                     }
                   >
-                    {failKind === "rejected" ? "Từ chối" : "Rút"}
+                    {failKind === "rejected" ? "不採用" : "取下"}
                   </p>
                 )}
                 {i > idx && !isFailed && (
                   <p className="mt-0.5 text-[9px] text-zinc-400 dark:text-zinc-600">
-                    chưa tới
+                    未到達
                   </p>
                 )}
               </div>
@@ -245,9 +239,9 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
               : "text-amber-900 dark:text-amber-100")
           }
         >
-          <span className="block font-medium">Dừng tại: {failStepName}</span>
+          <span className="block font-medium">終了段階: {failStepName}</span>
           <span className="mt-1 block text-[11px] font-normal opacity-90">
-            {a.closedNote ?? (failKind === "rejected" ? "Nhà tuyển không tiến hành" : "—")}
+            {a.closedNote ?? (failKind === "rejected" ? "採用側の判断により" : "—")}
           </span>
         </p>
       </div>
@@ -259,7 +253,7 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
     <div
       className="w-full min-w-0"
       role="list"
-      aria-label="Trạng thái xử lý ứng tuyển"
+      aria-label="応募の進行状況"
     >
       <div className="flex w-full min-w-0 items-center sm:px-0">
         {steps.map((step, i) => {
@@ -295,10 +289,10 @@ function ApplicationProcessStepper({ application: a }: { application: Applicatio
                   .join(" ")}
                 title={
                   isDone
-                    ? `${step.label} — đã xử lý xong`
+                    ? `${step.label} — 完了`
                     : isCurrent
-                      ? `${step.label} — đang xử lý`
-                      : `${step.label} — chưa tới bước này`
+                      ? `${step.label} — 対応中`
+                      : `${step.label} — 未到達`
                 }
               >
                 {isDone ? "✓" : i + 1}
@@ -387,10 +381,10 @@ export default function MyApplications() {
 
   return (
     <div className="app-page-body w-full min-w-0">
-      <h1 className="sr-only">Ứng tuyển &amp; theo dõi</h1>
+      <h1 className="sr-only">応募と進捗</h1>
       {mine.length === 0 ? (
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          Chưa có ứng tuyển nào.
+          応募はまだありません。
         </p>
       ) : (
         <>
@@ -398,7 +392,7 @@ export default function MyApplications() {
             className="mb-4 text-sm text-zinc-500 dark:text-zinc-400"
             aria-live="polite"
           >
-            Hiển thị {pageStart + 1}–{pageEnd} / {total} ứng tuyển
+            {pageStart + 1}–{pageEnd} / {total} 件を表示
           </p>
           <ul className="space-y-4 sm:space-y-5">
             {pageItems.map((a) => {
@@ -425,7 +419,7 @@ export default function MyApplications() {
                           </h2>
                           {a.stage === "onboarded" && !a.closed && (
                             <span className="shrink-0 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-800 dark:text-emerald-200">
-                              Hoàn tất
+                              完了
                             </span>
                           )}
                           {a.closed && (
@@ -441,16 +435,16 @@ export default function MyApplications() {
                         </div>
                         <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500 dark:text-zinc-400">
                           <span>
-                            {a.source === "direct" ? "Ứng tuyển trực tiếp" : "Tiến cử"}
+                            {a.source === "direct" ? "直接応募" : "紹介"}
                           </span>
                           <span className="text-zinc-300 dark:text-zinc-600" aria-hidden>
                             ·
                           </span>
                           <span>
-                            Gửi:{" "}
+                            提出:{" "}
                             <time dateTime={a.createdAt}>
                               {new Date(a.createdAt + "T12:00:00").toLocaleDateString(
-                                "vi-VN",
+                                "ja-JP",
                               )}
                             </time>
                           </span>
@@ -464,8 +458,8 @@ export default function MyApplications() {
                       </div>
                       <p className="shrink-0 text-xs text-zinc-500 dark:text-zinc-500">
                         {a.closed
-                          ? `Bước dừng: ${pos}/${steps.length}`
-                          : `Bước ${pos}/${steps.length}`}
+                          ? `終了段階: ${pos}/${steps.length}`
+                          : `段階 ${pos}/${steps.length}`}
                       </p>
                     </div>
                     <div className="mt-4 border-t border-(--app-border) pt-4 dark:border-zinc-800/80">
@@ -479,10 +473,10 @@ export default function MyApplications() {
           {totalPages > 1 && (
             <nav
               className="mt-6 flex flex-col items-stretch gap-3 border-t border-(--app-border) pt-4 sm:flex-row sm:items-center sm:justify-between dark:border-zinc-800/80"
-              aria-label="Phân trang ứng tuyển"
+              aria-label="応募のページ送り"
             >
               <p className="text-center text-sm text-zinc-500 sm:text-left dark:text-zinc-400">
-                Trang {currentPage} / {totalPages}
+                {currentPage} / {totalPages} ページ
               </p>
               <div className="flex items-center justify-center gap-2">
                 <button
@@ -491,7 +485,7 @@ export default function MyApplications() {
                   disabled={currentPage <= 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                 >
-                  Trang trước
+                  前へ
                 </button>
                 <button
                   type="button"
@@ -499,7 +493,7 @@ export default function MyApplications() {
                   disabled={currentPage >= totalPages}
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 >
-                  Trang sau
+                  次へ
                 </button>
               </div>
             </nav>

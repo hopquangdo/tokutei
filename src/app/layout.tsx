@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Willtec Tokutei Platform",
+  title: "ウィルテック 特定技能プラットフォーム",
   description:
-    "Nền tảng tuyển dụng 特定技能 — kết nối ứng viên, 登録支援機関 và Willtec",
+    "特定技能の採用プラットフォーム — 候補者・登録支援機関・Willtecをつなぐ",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="vi"
+      lang="ja"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[var(--app-surface)] font-sans text-zinc-900 dark:text-zinc-100">

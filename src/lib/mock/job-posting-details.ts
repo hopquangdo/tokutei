@@ -12,46 +12,58 @@ type JobPostingDetail = {
 const DETAIL_BY_JOB_ID: Record<string, JobPostingDetail> = {
   j1: {
     workSummary:
-      "Làm việc tại công trường, lắp dựng cốt thép theo hướng dẫn và tuân thủ tiêu chuẩn an toàn. Có ca ngày và một số ca đêm theo kế hoạch dự án.",
+      "現場での鉄筋据付を指示通りに行い、安全基準に従う。日勤に加え、案件により夜勤あり。",
     requirements: [
-      "JLPT N4 trở lên",
-      "Tư cách 特定技能1号 — ngành 建設",
-      "Ưu tiên ứng viên có kinh nghiệm xây dựng, hiểu quy trình an toàn cơ bản",
+      "JLPT N4以上",
+      "特定技能1号（建設分野）",
+      "建設現場の経験と基本の安全手順の理解を歓迎",
     ],
     updatedAt: "23/04/2026",
     publishedAt: "10/04/2026",
-    contractType: "Nhân viên toàn thời gian",
-    workAddress: "Shinagawa, Tokyo",
+    contractType: "正社員",
+    workAddress: "東京都 品川区",
   },
   j2: {
     workSummary:
-      "Vận hành dây chuyền chế biến thực phẩm, kiểm tra chất lượng thành phẩm và thực hiện vệ sinh khu vực theo tiêu chuẩn nhà máy.",
-    requirements: ["JLPT N5 trở lên", "Sức khỏe tốt, có thể đứng làm việc theo ca", "Tuân thủ quy định vệ sinh thực phẩm"],
+      "食品の製造ライン操作、出荷前の品質確認、工場内の衛生整備。",
+    requirements: [
+      "JLPT N5以上",
+      "シフト制の立ち仕事に対応できる方",
+      "食品衛生の規則を遵守できる方",
+    ],
     updatedAt: "23/04/2026",
     publishedAt: "12/04/2026",
-    contractType: "Nhân viên hợp đồng dài hạn",
-    workAddress: "Kawaguchi, Saitama",
+    contractType: "有期契約社員",
+    workAddress: "埼玉県 川口市",
   },
   j3: {
     workSummary:
-      "Chăm sóc người cao tuổi tại viện dưỡng lão, hỗ trợ sinh hoạt hằng ngày, ghi chép sức khỏe và phối hợp với điều dưỡng trưởng.",
-    requirements: ["JLPT N3 trở lên", "Định hướng nghề 介護, ưu tiên có chứng chỉ", "Kỹ năng giao tiếp và chăm sóc cơ bản"],
+      "有料老人ホームでの介護、生活支援、健康記録、看護主任との連携。",
+    requirements: [
+      "JLPT N3以上",
+      "介護志向の方 — 資格保持者歓迎",
+      "基礎的なコミュニケーションとケア力",
+    ],
     updatedAt: "23/04/2026",
     publishedAt: "15/04/2026",
-    contractType: "Nhân viên toàn thời gian",
-    workAddress: "Chiba-shi, Chiba",
+    contractType: "正社員",
+    workAddress: "千葉県 千葉市",
   },
 };
 
 export function getJobPostingDetail(job: Job): JobPostingDetail {
   return (
     DETAIL_BY_JOB_ID[job.id] ?? {
-      workSummary: `Nội dung công việc theo ngành ${job.industry} tại khu vực ${job.city}. Ứng viên cần tuân thủ quy trình đào tạo và nội quy tại nơi làm việc.`,
-      requirements: [`JLPT ${job.requiredJlpt} trở lên`, "Giấy tờ pháp lý hợp lệ theo chương trình 特定技能", "Phối hợp tốt với đội nhóm tại nơi làm việc"],
+      workSummary: `${job.industry}分野の業務（${job.city}エリア）。職場のルールと研修に従って業務に従事します。`,
+      requirements: [
+        `JLPT ${job.requiredJlpt} 以上`,
+        "特定技能に即した有効な在留・手続き",
+        "職場のチームと良好に連携できる方",
+      ],
       updatedAt: "23/04/2026",
       publishedAt: "01/04/2026",
-      contractType: "Nhân viên hợp đồng",
-      workAddress: `${job.city}, Japan`,
+      contractType: "契約社員",
+      workAddress: `${job.city}（日本）`,
     }
   );
 }

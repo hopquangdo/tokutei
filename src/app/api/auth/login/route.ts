@@ -9,19 +9,19 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ error: "JSONの形式が不正です" }, { status: 400 });
   }
 
   const email = body.email;
   const password = body.password;
   if (typeof email !== "string" || typeof password !== "string") {
-    return NextResponse.json({ error: "Thiếu email hoặc mật khẩu" }, { status: 400 });
+    return NextResponse.json({ error: "メールアドレスまたはパスワードが入力されていません" }, { status: 400 });
   }
 
   const user = findDemoUser(email, password);
   if (!user) {
     return NextResponse.json(
-      { error: "Sai email hoặc mật khẩu" },
+      { error: "メールアドレスまたはパスワードが正しくありません" },
       { status: 401 }
     );
   }

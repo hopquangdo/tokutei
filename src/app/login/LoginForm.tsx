@@ -32,12 +32,12 @@ export function LoginForm() {
         role?: Role;
       };
       if (!res.ok) {
-        setFormError(data.error ?? "Đăng nhập thất bại");
+        setFormError(data.error ?? "ログインに失敗しました");
         return;
       }
       const role = data.role;
       if (!role) {
-        setFormError("Phản hồi không hợp lệ");
+        setFormError("応答の形式が不正です");
         return;
       }
       const target = safeRedirectPath(nextParam, role);
@@ -52,8 +52,7 @@ export function LoginForm() {
     <div className="w-full space-y-4">
       {err === "wrong_portal" && (
         <p className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-900 dark:text-amber-100">
-          Bạn đã đăng nhập tài khoản khác khu. Vui lòng đăng xuất rồi chọn
-          đúng loại tài khoản.
+          別の区分のアカウントでログイン済みです。いったんログアウトして、正しいアカウント種別を選んでください。
         </p>
       )}
       {formError && (
@@ -62,7 +61,7 @@ export function LoginForm() {
 
       <div className="space-y-2 text-sm">
         <label className="app-label" htmlFor="login-email">
-          Email
+          メールアドレス
         </label>
         <input
           id="login-email"
@@ -75,7 +74,7 @@ export function LoginForm() {
       </div>
       <div className="space-y-2 text-sm">
         <label className="app-label" htmlFor="login-password">
-          Mật khẩu
+          パスワード
         </label>
         <input
           id="login-password"
@@ -93,12 +92,12 @@ export function LoginForm() {
         disabled={loading}
         className="app-btn app-btn-primary mt-1 w-full py-2.5 text-sm"
       >
-        {loading ? "…" : "Đăng nhập"}
+        {loading ? "…" : "ログイン"}
       </button>
 
       <div className="space-y-1.5">
         <p className="text-xs font-medium text-[var(--app-text-muted)]">
-          Tài khoản gợi ý
+          デモアカウント
         </p>
         <div className="flex flex-col gap-1.5">
           {DEMO_USERS.map((u) => (
@@ -112,10 +111,10 @@ export function LoginForm() {
               className="rounded-lg border border-[var(--app-border)] bg-slate-50/90 px-3 py-2.5 text-left text-xs text-zinc-700 shadow-[var(--app-shadow-sm)] transition hover:border-blue-200 hover:bg-white dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-200 dark:hover:border-blue-500/30 dark:hover:bg-zinc-800/80"
             >
               <span
-                className="font-semibold capitalize"
+                className="font-semibold"
                 style={{ color: "var(--app-primary)" }}
               >
-                {u.role}
+                {u.role === "candidate" ? "候補者" : "登録支援機関"}
               </span>{" "}
               <span className="text-[var(--app-text-muted)]">{u.email}</span>
             </button>
@@ -125,7 +124,7 @@ export function LoginForm() {
 
       <p className="text-center text-sm">
         <Link className="app-link" href="/">
-          ← Về trang chủ
+          ← トップへ
         </Link>
       </p>
     </div>

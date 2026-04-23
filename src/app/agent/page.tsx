@@ -15,24 +15,24 @@ export default function AgentDashboard() {
 
   return (
     <div className="app-page-body w-full min-w-0">
-      <h1 className="sr-only">Bảng điều khiển Agent</h1>
+      <h1 className="sr-only">登録支援機関ダッシュボード</h1>
       <div className="grid gap-3 sm:grid-cols-3">
         {(
           [
             {
-              k: "Job đang mở",
+              k: "公開中求人",
               v: String(kpi.openJobs),
-              sub: "Tin bạn quản lý (a1)",
+              sub: "自組織の求人（a1）",
             },
             {
-              k: "Ứng tuyển (job của bạn)",
+              k: "自社求人への応募",
               v: String(kpi.applicationsCount),
-              sub: "Hồ sơ vào tin đã đăng",
+              sub: "掲載した求人へ届いた件数",
             },
             {
-              k: "Đối tác B2B (agent khác)",
+              k: "B2Bパートナー数",
               v: String(kpi.b2bPartnerAgents),
-              sub: "Số tổ chức đăng tin trên marketplace B2B",
+              sub: "B2Bマーケットに掲載する他機関数",
             },
           ] as const
         ).map((x) => (
@@ -52,14 +52,14 @@ export default function AgentDashboard() {
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <Card>
-          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Hồ sơ còn mở (pipeline)</p>
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">オープン中（パイプライン）</p>
           <p className="mt-1 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{kpi.openPipeline}</p>
-          <p className="mt-0.5 text-xs text-zinc-500">Chưa đóng, chưa từ chối / rút</p>
+          <p className="mt-0.5 text-xs text-zinc-500">終了・不採用・取り下げ前</p>
         </Card>
         <Card>
-          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">B2B Marketplace</p>
-          <p className="mt-1 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">Bật</p>
-          <p className="mt-0.5 text-xs text-zinc-500">Tiến cử &amp; hoa hồng theo cấu hình từng gói</p>
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">B2Bマーケット</p>
+          <p className="mt-1 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">ON</p>
+          <p className="mt-0.5 text-xs text-zinc-500">プランに応じた紹介・手数料</p>
         </Card>
       </div>
 

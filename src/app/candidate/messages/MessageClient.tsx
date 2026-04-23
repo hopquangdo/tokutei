@@ -16,43 +16,43 @@ type Conversation = {
 const initial: Conversation[] = [
   {
     id: "c1",
-    title: "Agent (Willtec Tokyo)",
+    title: "登録支援（Willtec東京）",
     subtitle: "登録支援",
-    lastPreview: "Vui lòng tải lại bản 指定書 bản màu.",
-    lastAt: "Hôm nay, 10:00",
+    lastPreview: "指定書のカラー原本を再アップロードしてください。",
+    lastAt: "今日 10:00",
     messages: [
       {
         id: "1",
         from: "them",
-        text: "Vui lòng tải lại bản 指定書 bản màu.",
+        text: "指定書のカラー原本を再アップロードしてください。",
         at: "10:00",
       },
-      { id: "2", from: "me", text: "了解です。本日上げます。", at: "10:12" },
+      { id: "2", from: "me", text: "承知しました。本日中に提出します。", at: "10:12" },
     ],
   },
   {
     id: "c2",
-    title: "HR — 建設 Site-A",
-    subtitle: "Phỏng vấn sơ",
-    lastPreview: "Mang 在留 thẻ gốc khi đến công trường.",
-    lastAt: "Hôm qua, 16:20",
+    title: "HR — 建設 現場A",
+    subtitle: "初回面接",
+    lastPreview: "現場へは在留カードの原本をお持ちください。",
+    lastAt: "昨日 16:20",
     messages: [
       {
         id: "1",
         from: "them",
-        text: "Mang 在留 thẻ gốc khi đến công trường.",
+        text: "現場へは在留カードの原本をお持ちください。",
         at: "16:20",
       },
     ],
   },
   {
     id: "c3",
-    title: "Hỗ trợ tài khoản",
+    title: "アカウント窓口",
     subtitle: "Willtec",
-    lastPreview: "Cảm ơn bạn đã cập nhật hồ sơ.",
-    lastAt: "20/4/2026",
+    lastPreview: "書類の更新ありがとうございます。",
+    lastAt: "2026/4/20",
     messages: [
-      { id: "1", from: "them", text: "Cảm ơn bạn đã cập nhật hồ sơ.", at: "09:00" },
+      { id: "1", from: "them", text: "書類の更新ありがとうございます。", at: "09:00" },
     ],
   },
 ];
@@ -74,7 +74,7 @@ export function MessageClient() {
   const send = useCallback(() => {
     const text = draft.trim();
     if (!text || !active) return;
-    const now = "Vừa gửi";
+    const now = "たった今";
     const newMsg: Msg = { id: uid(), from: "me", text, at: now };
     setConversations((rows) =>
       rows.map((c) =>
@@ -97,10 +97,10 @@ export function MessageClient() {
       <div
         className="flex min-h-0 w-full min-w-0 flex-[0_0_auto] flex-col border-b border-[var(--app-border)] bg-slate-50/50 max-md:max-h-[min(40dvh,18rem)] dark:border-zinc-800/80 dark:bg-zinc-900/30 md:h-full md:max-h-none md:w-72 md:max-w-[40%] md:shrink-0 md:border-b-0 md:border-r"
         role="navigation"
-        aria-label="Hội thoại"
+        aria-label="会話一覧"
       >
         <p className="shrink-0 border-b border-[var(--app-border)] px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--app-text-muted)] dark:border-zinc-800/80">
-          Cuộc trò chuyện
+          会話
         </p>
         <ul className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
           {conversations.map((c) => {
@@ -167,7 +167,7 @@ export function MessageClient() {
                     }
                   >
                     <p className="text-[10px] text-zinc-500 dark:text-zinc-400">
-                      {m.from === "me" ? "Bạn" : "Đối phương"} · {m.at}
+                      {m.from === "me" ? "あなた" : "相手"} · {m.at}
                     </p>
                     <p className="mt-0.5 whitespace-pre-wrap">{m.text}</p>
                   </div>
@@ -186,21 +186,21 @@ export function MessageClient() {
                     }
                   }}
                   className="app-input min-w-0 flex-1 text-sm"
-                  placeholder="Nhập nội dung…"
+                  placeholder="メッセージを入力…"
                 />
                 <button
                   type="button"
                   onClick={send}
                   className="app-btn app-btn-primary app-btn-sm shrink-0"
                 >
-                  Gửi
+                  送信
                 </button>
               </div>
             </div>
           </>
         ) : (
           <div className="flex flex-1 items-center justify-center p-6 text-sm text-zinc-500">
-            Chọn một cuộc trò chuyện
+            会話を選択してください
           </div>
         )}
       </div>

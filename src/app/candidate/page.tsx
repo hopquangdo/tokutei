@@ -14,27 +14,27 @@ const JOBS_HOME_PREVIEW = 5;
 const upcomingInterviews = [
   {
     id: "iv1",
-    jobTitle: "特定技能 建設 — công nhân cốt thép",
+    jobTitle: "特定技能 建設 — 鉄筋工",
     when: "28/04/2026, 10:00 – 11:00",
-    place: "Online (Zoom)",
-    note: "Mang 在留 thẻ và 指定書 bản gốc khi tham dự.",
+    place: "オンライン（Zoom）",
+    note: "在留カードと指定書の原本を必ず持参。",
   },
   {
     id: "iv2",
-    jobTitle: "PV bổ sung — HR xác minh 分野",
+    jobTitle: "再面接 — HR分野確認",
     when: "05/05/2026, 14:00",
-    place: "Tokyo (văn phòng)",
-    note: "Cập nhật ảnh 指定書 rõ nét hơn.",
+    place: "東京（事務所）",
+    note: "指定書の写りを鮮明に更新ください。",
   },
 ] as const;
 
 const stageLabel: Record<string, string> = {
-  screening: "Sàng lọc",
-  interview: "Phỏng vấn",
-  visa: "Visa",
-  offer: "Trúng tuyển",
-  onboarded: "Onboard",
-  sourced: "Nguồn",
+  screening: "書類選考",
+  interview: "面接",
+  visa: "在留・ビザ",
+  offer: "内定",
+  onboarded: "入社手続き",
+  sourced: "紹介元",
 };
 
 function profileCompletePct(cand: ReturnType<typeof getCandidate>) {
@@ -52,20 +52,20 @@ export default function CandidateDashboard() {
 
   return (
     <div className="app-page-body w-full min-w-0">
-      <h1 className="sr-only">Tổng quan ứng viên</h1>
+      <h1 className="sr-only">候補者ダッシュボード</h1>
       <div className="grid gap-3 sm:grid-cols-3">
         {(
           [
             {
-              k: "Tài khoản khu vực",
+              k: "区分アカウント",
               v: "1",
-              sub: "Khu ứng viên",
+              sub: "候補者向け",
             },
-            { k: "Đã phỏng vấn", v: String(kpi.interviewCount), sub: "Theo ứng tuyển" },
+            { k: "面接実施", v: String(kpi.interviewCount), sub: "応募ベース" },
             {
-              k: "Trúng tuyển / Onboard",
+              k: "内定 / 入社手続き",
               v: String(kpi.offerOrOnboard),
-              sub: "Giai đoạn offer hoặc onboard",
+              sub: "内定〜入社手続き段階",
             },
           ] as const
         ).map((x) => (
@@ -85,23 +85,23 @@ export default function CandidateDashboard() {
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         <Card>
-          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Hồ sơ hoàn thiện</p>
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">プロフィール完成度</p>
           <p className="mt-1 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{profilePct}%</p>
           <p className="mt-0.5 text-xs text-blue-800 dark:text-blue-200/90">
-            {cand?.legalOk ? "Pháp lý: hợp lệ" : "Cần bổ sung: ảnh 指定書 rõ nét"}
+            {cand?.legalOk ? "在留等: 問題なし" : "要補足: 指定書の鮮明な画像"}
           </p>
         </Card>
         <Card>
-          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Việc đã ứng</p>
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">応募件数</p>
           <p className="mt-1 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
             {kpi.applicationCount}
           </p>
-          <p className="mt-0.5 text-xs text-zinc-500">Theo hồ sơ hiện tại</p>
+          <p className="mt-0.5 text-xs text-zinc-500">現在の履歴に基づく</p>
         </Card>
         <Card>
-          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Tin từ Agent</p>
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">登録支援機関から</p>
           <p className="mt-1 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">1</p>
-          <p className="mt-0.5 text-xs text-zinc-500">Nhắc cập nhật CV</p>
+          <p className="mt-0.5 text-xs text-zinc-500">履歴書の更新推奨</p>
         </Card>
       </div>
 
@@ -112,10 +112,10 @@ export default function CandidateDashboard() {
         <Card className="flex h-full min-h-[280px] min-w-0 flex-col" padding="p-0">
           <div className="shrink-0 border-b border-zinc-100 p-4 dark:border-zinc-800/80">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              Việc làm (đang tuyển)
+              募集中の求人
             </h2>
             <p className="mt-0.5 text-xs text-zinc-500">
-              {jobsPreview.length} / {jobs.length} tin
+              {jobsPreview.length} / {jobs.length} 件
             </p>
           </div>
           <ul className="min-h-0 flex-1 divide-y divide-zinc-100 overflow-y-auto overscroll-y-contain px-4 dark:divide-zinc-800/80">
@@ -144,9 +144,9 @@ export default function CandidateDashboard() {
         <Card className="flex h-full min-h-[260px] min-w-0 flex-col" padding="p-0">
           <div className="shrink-0 p-4 pb-3">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              Theo dõi ứng tuyển
+              応募状況
             </h2>
-            <p className="text-xs text-zinc-500">Các hồ sơ bạn đã gửi</p>
+            <p className="text-xs text-zinc-500">提出済みの応募</p>
           </div>
           <ul className="min-h-0 max-h-[min(40vh,22rem)] flex-1 divide-y divide-zinc-100 overflow-y-auto overscroll-y-contain px-4 dark:divide-zinc-800/80">
             {mine.map((a) => {
@@ -168,8 +168,8 @@ export default function CandidateDashboard() {
         </Card>
         <Card className="flex h-full min-h-[260px] min-w-0 flex-col" padding="p-0">
           <div className="shrink-0 p-4 pb-3">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Lịch phỏng vấn</h2>
-            <p className="text-xs text-zinc-500">Lịch sắp tới &amp; ghi chú</p>
+            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">面接予定</h2>
+            <p className="text-xs text-zinc-500">直近の予定とメモ</p>
           </div>
           <ul className="min-h-0 max-h-[min(40vh,22rem)] flex-1 space-y-3 overflow-y-auto overscroll-y-contain px-4 pb-4">
             {upcomingInterviews.map((iv) => (

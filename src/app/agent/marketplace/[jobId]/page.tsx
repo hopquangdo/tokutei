@@ -11,7 +11,7 @@ export default async function AgentMarketplaceJobDetailPage({ params }: PageProp
   const job = getJob(jobId);
   if (!job) notFound();
 
-  const ownerName = getAgent(job.ownerAgentId)?.name ?? "Đơn vị tuyển dụng";
+  const ownerName = getAgent(job.ownerAgentId)?.name ?? "採用元";
   const suggested = candidates
     .filter((c) => c.legalOk)
     .sort((a, b) => b.cqiScore - a.cqiScore);
@@ -22,7 +22,7 @@ export default async function AgentMarketplaceJobDetailPage({ params }: PageProp
       ownerName={ownerName}
       mode="agent"
       backHref="/agent/marketplace"
-      backLabel="Quay lại marketplace"
+      backLabel="マーケットに戻る"
       suggestedCandidates={suggested}
       stickyPrimaryPanel
     />

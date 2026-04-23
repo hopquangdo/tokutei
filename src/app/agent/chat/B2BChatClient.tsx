@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import type { ChatThread, Message } from "@/lib/types";
 import { b2bThreads } from "@/lib/mock/seed";
 
-const MY_AGENT = "Willtec Hỗ trợ Tokyo";
+const MY_AGENT = "Willtec東京サポート";
 
 type BubbleMsg = { id: string; from: "them" | "me"; text: string; at: string };
 
@@ -21,7 +21,7 @@ function formatTime(iso: string) {
   try {
     const d = new Date(iso);
     if (Number.isNaN(d.getTime())) return iso;
-    return d.toLocaleString("vi-VN", {
+    return d.toLocaleString("ja-JP", {
       day: "2-digit",
       month: "2-digit",
       hour: "2-digit",
@@ -33,7 +33,7 @@ function formatTime(iso: string) {
 }
 
 function isMeFromLabel(from: string) {
-  return from === MY_AGENT || from.startsWith("Bạn");
+  return from === MY_AGENT;
 }
 
 function messageToBubble(m: Message): BubbleMsg {
@@ -77,7 +77,7 @@ export function B2BChatClient() {
   const send = useCallback(() => {
     const text = draft.trim();
     if (!text || !active) return;
-    const now = "Vừa gửi";
+    const now = "たった今";
     const newMsg: BubbleMsg = { id: uid(), from: "me", text, at: now };
     setConversations((rows) =>
       rows.map((c) =>
@@ -96,14 +96,14 @@ export function B2BChatClient() {
 
   return (
     <div className="flex h-full min-h-0 w-full min-w-0 flex-1 flex-col md:flex-row">
-      {/* Cột trái: hội thoại B2B (cùng pattern MessageClient ứng viên) */}
+      {/* 左: スレッド一覧 */}
       <div
         className="flex min-h-0 w-full min-w-0 flex-[0_0_auto] flex-col border-b border-[var(--app-border)] bg-slate-50/50 max-md:max-h-[min(40dvh,18rem)] dark:border-zinc-800/80 dark:bg-zinc-900/30 md:h-full md:max-h-none md:w-72 md:max-w-[40%] md:shrink-0 md:border-b-0 md:border-r"
         role="navigation"
-        aria-label="Hội thoại B2B"
+        aria-label="B2B会話一覧"
       >
         <p className="shrink-0 border-b border-[var(--app-border)] px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--app-text-muted)] dark:border-zinc-800/80">
-          Cuộc trò chuyện
+          会話
         </p>
         <ul className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
           {conversations.map((c) => {
@@ -138,7 +138,7 @@ export function B2BChatClient() {
         </ul>
       </div>
 
-      {/* Cột phải: tin nhắn + composer */}
+      {/* 右: メッセージ＋送信 */}
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         {active ? (
           <>
@@ -160,7 +160,7 @@ export function B2BChatClient() {
                     }
                   >
                     <p className="text-[10px] text-zinc-500 dark:text-zinc-400">
-                      {m.from === "me" ? "Bạn" : "Đối tác"} · {m.at}
+                      {m.from === "me" ? "あなた" : "相手"} · {m.at}
                     </p>
                     <p className="mt-0.5 whitespace-pre-wrap">{m.text}</p>
                   </div>
@@ -179,18 +179,18 @@ export function B2BChatClient() {
                   className="app-input min-w-0 flex-1 text-sm"
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
-                  placeholder="Gửi ghi chú B2B (tiến cử, hoa hồng, lịch PV…)"
-                  aria-label="Nội dung tin nhắn"
+                  placeholder="B2Bメモ（紹介、手数料、面接日程など）"
+                  aria-label="メッセージ本文"
                 />
                 <button type="submit" className="app-btn app-btn-primary app-btn-sm shrink-0">
-                  Gửi
+                  送信
                 </button>
               </form>
             </div>
           </>
         ) : (
           <div className="flex flex-1 items-center justify-center p-6 text-sm text-zinc-500">
-            Chọn một cuộc trò chuyện
+            会話を選択してください
           </div>
         )}
       </div>

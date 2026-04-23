@@ -46,17 +46,17 @@ const pipelineOrder: PipelineStage[] = [
   "sourced",
 ];
 
-/** Nhãn giai đoạn pipeline — dùng chung Agent / ứng viên / bảng. */
-export const PIPELINE_STAGE_LABEL_VI: Record<PipelineStage, string> = {
-  screening: "Sàng lọc",
-  interview: "Phỏng vấn",
-  offer: "Trúng tuyển",
-  visa: "Visa",
-  onboarded: "Onboard",
-  sourced: "Nguồn",
+/** パイプライン各段階の表示ラベル（Agent / 候補者 / 表で共通） */
+export const PIPELINE_STAGE_LABEL_JA: Record<PipelineStage, string> = {
+  screening: "書類選考",
+  interview: "面接",
+  offer: "内定",
+  visa: "在留・ビザ",
+  onboarded: "入社手続き",
+  sourced: "紹介元",
 };
 
-const pipelineStepLabel = PIPELINE_STAGE_LABEL_VI;
+const pipelineStepLabel = PIPELINE_STAGE_LABEL_JA;
 
 /** Cột pipeline — đếm theo từng ứng tuyển (chỉ đơn còn mở, trừ đã đóng). */
 export function buildPipelineBarFromApplications(apps: Application[]) {
@@ -74,7 +74,7 @@ export function buildPipelineBarFromApplications(apps: Application[]) {
 export function buildIndustryDistributionFromJobs(jobs: Job[]): IndustrySlice[] {
   if (jobs.length === 0) {
     return [
-      { name: "—", desc: "Chưa có job", value: 100 },
+      { name: "—", desc: "求人なし", value: 100 },
     ];
   }
   const counts = new Map<string, number>();
@@ -90,7 +90,7 @@ export function buildIndustryDistributionFromJobs(jobs: Job[]): IndustrySlice[] 
   }
   return entries.map(([industry], i) => ({
     name: industry,
-    desc: "Việc làm đang đăng tải",
+    desc: "公開中求人",
     value: raw[i]!,
   }));
 }

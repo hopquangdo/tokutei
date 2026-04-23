@@ -7,11 +7,11 @@ export default function MarketplacePage() {
 
   return (
     <div className="app-page-body w-full min-w-0">
-      <h1 className="sr-only">B2B Marketplace (Agent)</h1>
+      <h1 className="sr-only">B2Bマーケットプレイス（エージェント）</h1>
 
       {others.length === 0 ? (
         <Card className="border-dashed">
-          <p className="text-sm text-zinc-500">Chưa có tin từ tổ chức khác.</p>
+          <p className="text-sm text-zinc-500">他機関の求人はまだありません。</p>
         </Card>
       ) : (
         <ul className="space-y-4">
@@ -32,11 +32,11 @@ export default function MarketplacePage() {
                         {j.title}
                       </p>
                       <p className="mt-1 text-xs text-zinc-500">
-                        Đăng bởi: {a?.name ?? "—"} · {j.city} · {j.industry}
+                        掲載: {a?.name ?? "—"} · {j.city} · {j.industry}
                       </p>
                       <div className="mt-3 flex flex-wrap gap-2 text-xs">
                         <span className="rounded-md border border-zinc-200/80 bg-zinc-50 px-2 py-1 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800/70 dark:text-zinc-300">
-                          Lương: {j.salary}
+                          月給: {j.salary}
                         </span>
                         <span className="rounded-md border border-zinc-200/80 bg-zinc-50 px-2 py-1 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800/70 dark:text-zinc-300">
                           JLPT: {j.requiredJlpt}
@@ -46,14 +46,14 @@ export default function MarketplacePage() {
 
                     <div className="flex min-w-0 flex-col gap-2 border-t border-zinc-100 pt-4 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0 dark:border-zinc-800/80">
                       <p className="text-sm font-semibold text-amber-800 dark:text-amber-200">
-                        Hoa hồng: {j.shareCommission}
+                        紹介手数料: {j.shareCommission}
                       </p>
-                      <p className="text-xs text-zinc-500">Sẵn sàng cho luồng tiến cử ứng viên</p>
+                      <p className="text-xs text-zinc-500">候補者紹介フローに利用可能</p>
                       <Link
                         href={`/agent/marketplace/${j.id}`}
                         className="app-btn app-btn-primary mt-auto w-full text-center text-sm"
                       >
-                        Xem chi tiết &amp; tiến cử
+                        詳細を見る・紹介する
                       </Link>
                     </div>
                   </div>

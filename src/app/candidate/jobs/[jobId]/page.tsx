@@ -11,7 +11,7 @@ export default async function CandidateJobDetailPage({ params }: PageProps) {
   const job = getJob(jobId);
   if (!job) notFound();
 
-  const ownerName = getAgent(job.ownerAgentId)?.name ?? "Đơn vị tuyển dụng";
+  const ownerName = getAgent(job.ownerAgentId)?.name ?? "採用元";
 
   return (
     <JobPostingDetailView
@@ -19,7 +19,7 @@ export default async function CandidateJobDetailPage({ params }: PageProps) {
       ownerName={ownerName}
       mode="candidate"
       backHref="/candidate/jobs"
-      backLabel="Quay lại danh sách việc làm"
+      backLabel="求人一覧に戻る"
     />
   );
 }

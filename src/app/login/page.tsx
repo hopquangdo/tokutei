@@ -21,18 +21,18 @@ export default async function LoginPage({
       <div className="app-page-shell flex w-full min-w-0 flex-1 flex-col items-center justify-center py-12 sm:py-16">
         <div className="w-full max-w-md">
           <p className="text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--app-text-muted)]">
-            Willtec
+            ウィルテック
           </p>
           <h1 className="mb-1 text-center text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            Đăng nhập
+            ログイン
           </h1>
           <p className="mb-6 text-center text-sm text-[var(--app-text-muted)]">
-            Truy cập theo khu: Ứng viên hoặc Agent
+            アクセス区分: 求職者 または エージェント
           </p>
           <Card padding="p-5 sm:p-6">
             <Suspense
               fallback={
-                <p className="text-center text-sm text-zinc-500">Tải form…</p>
+                <p className="text-center text-sm text-zinc-500">フォームを読み込み中…</p>
               }
             >
               <LoginForm />

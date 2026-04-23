@@ -108,11 +108,11 @@ function JobIndustryPieCard({ className = "" }: { className?: string }) {
       <>
         <div className="mb-2 flex items-start justify-between gap-2">
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            Phân bổ job theo ngành (分野)
+            分野別の求人内訳
           </h3>
         </div>
         <p className="mb-1 text-xs text-zinc-500 dark:text-zinc-400">
-          Từ danh sách việc đang mở — đồng bộ với khu Agent &amp; Admin
+          募集中の求人 — Agent / 管理と同じデータ
         </p>
         <div className="h-[300px] w-full min-h-[280px] min-w-0 sm:h-[280px]">
           <ResponsiveContainer width="100%" height="100%" minHeight={260}>
@@ -166,11 +166,11 @@ function OfferRejectLineCard({ className = "" }: { className?: string }) {
       <>
         <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            Đơn được Offer &amp; bị từ chối
+            内定と不採用
           </h3>
           <span
             className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-lg border border-[var(--app-border)] bg-zinc-50 px-2.5 py-1 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
-            title="Bộ lọc"
+            title="フィルタ"
           >
             <svg
               className="h-3.5 w-3.5"
@@ -182,7 +182,7 @@ function OfferRejectLineCard({ className = "" }: { className?: string }) {
             >
               <path d="M3 4h18l-7 8v6l-4-2v-4L3 4z" />
             </svg>
-            Bộ lọc
+            フィルタ
           </span>
         </div>
         <div className="mb-2 flex flex-wrap gap-4 text-[11px] text-zinc-600 dark:text-zinc-400">
@@ -191,14 +191,14 @@ function OfferRejectLineCard({ className = "" }: { className?: string }) {
               className="h-0.5 w-4 rounded-sm"
               style={{ background: OFFER_STROKE }}
             />
-            Được Offer (chờ PV / đã vào công ty)
+            内定（面接待ち / 入社済み含む）
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span
               className="h-0.5 w-4 rounded-sm"
               style={{ background: REJECT_STROKE }}
             />
-            Bị từ chối (trượt / từ chối / hủy)
+            不採用（落選 / 辞退 / 取消）
           </span>
         </div>
         <div className="h-[300px] w-full min-h-[280px] min-w-0 sm:h-[280px]">
@@ -224,7 +224,7 @@ function OfferRejectLineCard({ className = "" }: { className?: string }) {
               <Line
                 type="monotone"
                 dataKey="offer"
-                name="Offer"
+                name="内定"
                 stroke={OFFER_STROKE}
                 strokeWidth={2.5}
                 dot={{ r: 3, fill: "var(--app-primary)", strokeWidth: 0 }}
@@ -233,7 +233,7 @@ function OfferRejectLineCard({ className = "" }: { className?: string }) {
               <Line
                 type="monotone"
                 dataKey="reject"
-                name="Từ chối"
+                name="不採用"
                 stroke={REJECT_STROKE}
                 strokeWidth={2}
                 dot={{ r: 2.5, fill: "var(--app-chart-compare)", strokeWidth: 0 }}
@@ -252,10 +252,10 @@ function JobEngagementBarCard() {
     <ChartCard className="w-full">
       <>
         <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-          Tương tác việc (hệ thống): xem gợi ý &amp; lưu tin
+          求人与信（推奨閲覧・保存）
         </h3>
         <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
-          Số lượt xem tin gợi ý / lưu theo tháng — cột kép
+          月次の推奨閲覧数 / 保存数（積み上げ棒）
         </p>
         <div className="h-[280px] w-full min-h-[240px] min-w-0">
           <ResponsiveContainer width="100%" height="100%" minHeight={220}>
@@ -284,13 +284,13 @@ function JobEngagementBarCard() {
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Bar
                 dataKey="viewed"
-                name="Xem gợi ý (JD)"
+                name="推奨を見る（JD）"
                 fill="var(--app-chart-2)"
                 radius={[4, 4, 0, 0]}
               />
               <Bar
                 dataKey="saved"
-                name="Lưu tin"
+                name="保存"
                 fill="var(--app-chart-4)"
                 radius={[4, 4, 0, 0]}
               />
@@ -310,10 +310,10 @@ export function CandidatePipelineBarChart({ className }: { className?: string })
       className={`flex h-full min-h-[280px] w-full min-w-0 flex-col ${className ?? ""}`}
     >
       <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-        Ứng tuyển theo bước pipeline
+        パイプライン段階別の応募数
       </h3>
       <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
-        Tổng hợp từ toàn bộ hồ sơ ứng tuyển — thống nhất 3 khu
+        全応募を集計 — 3区分で共通の指標
       </p>
       <div className="min-h-0 w-full flex-1">
         <div className="h-full min-h-[200px] w-full">
@@ -344,7 +344,7 @@ export function CandidatePipelineBarChart({ className }: { className?: string })
               <Tooltip content={OfferRejectTooltip} />
               <Bar
                 dataKey="count"
-                name="Số lượng"
+                name="件数"
                 fill="var(--app-primary)"
                 radius={[4, 4, 0, 0]}
               />

@@ -12,14 +12,14 @@ import type {
 export const agents: Agent[] = [
   {
     id: "a1",
-    name: "Willtec Hỗ trợ Tokyo",
+    name: "Willtec東京サポート",
     type: "torokushien",
     city: "Tokyo",
     verified: true,
   },
   {
     id: "a2",
-    name: "Partner Osaka Work",
+    name: "パートナー大阪ワーク",
     type: "torokushien",
     city: "Osaka",
     verified: true,
@@ -36,7 +36,7 @@ export const agents: Agent[] = [
 export const jobs: Job[] = [
   {
     id: "j1",
-    title: "特定技能 建設 — công nhân cốt thép",
+    title: "特定技能 建設 — 鉄筋工",
     industry: "建設",
     city: "Tokyo",
     salary: "180,000円〜",
@@ -46,7 +46,7 @@ export const jobs: Job[] = [
   },
   {
     id: "j2",
-    title: "製造ライン作業員 (Thực phẩm)",
+    title: "製造ライン作業員（食品）",
     industry: "食料品製造",
     city: "Saitama",
     salary: "175,000円〜",
@@ -129,7 +129,7 @@ export const jobs: Job[] = [
 export const candidates: Candidate[] = [
   {
     id: "c1",
-    name: "Nguyễn Văn A",
+    name: "グエン・ヴァン・アー",
     country: "VN",
     jlpt: "N4",
     visaCategory: "tokutei_1",
@@ -140,7 +140,7 @@ export const candidates: Candidate[] = [
   },
   {
     id: "c2",
-    name: "Trần Thị B",
+    name: "チャン・ティ・ビー",
     country: "VN",
     jlpt: "N3",
     visaCategory: "tokutei_1",
@@ -151,7 +151,7 @@ export const candidates: Candidate[] = [
   },
   {
     id: "c3",
-    name: "Phạm Văn C",
+    name: "ファム・ヴァン・シー",
     country: "VN",
     jlpt: "N5",
     visaCategory: "tokutei_1",
@@ -213,7 +213,7 @@ export const applications: Application[] = [
     source: "direct",
     stage: "interview",
     closed: "rejected",
-    closedNote: "Kỹ năng tác nghiệp chưa đạt yêu cầu tuyển dụng.",
+    closedNote: "実務スキルが採用要件に満たないため。",
     createdAt: "2026-03-28",
   },
   {
@@ -224,7 +224,7 @@ export const applications: Application[] = [
     fromAgentId: "a1",
     stage: "screening",
     closed: "withdrawn",
-    closedNote: "Bạn đã rút hồ sơ.",
+    closedNote: "本人の希望により取り下げ。",
     createdAt: "2026-04-15",
   },
   {
@@ -234,7 +234,7 @@ export const applications: Application[] = [
     source: "direct",
     stage: "screening",
     closed: "rejected",
-    closedNote: "Ngành 指定書 không khớp với vị trí ứng tuyển.",
+    closedNote: "指定書の分野と応募職種が一致しないため。",
     createdAt: "2026-04-02",
   },
   {
@@ -267,35 +267,35 @@ export const applications: Application[] = [
 export const b2bThreads: ChatThread[] = [
   {
     id: "t1",
-    title: "Tiến cử ứng viên — công trình A",
-    participants: ["Willtec Hỗ trợ Tokyo", "Partner Osaka Work"],
+    title: "候補者紹介 — 建設案件A",
+    participants: ["Willtec東京サポート", "パートナー大阪ワーク"],
     messages: [
       {
         id: "m1",
         threadId: "t1",
-        from: "Partner Osaka Work",
-        text: "Gửi bạn hồ sơ JLPT N3, đang làm 建設, shiteisho 食料品 — cần xác minh thêm hạng mục ngành.",
+        from: "パートナー大阪ワーク",
+        text: "JLPT N3の方の書類送付。建設勤務、指定書は食料品 — 分野の突合をお願いします。",
         at: "2026-04-21T09:00:00",
       },
       {
         id: "m2",
         threadId: "t1",
-        from: "Willtec Hỗ trợ Tokyo",
-        text: "OK, đã highlight phần 所属機関. Vui lòng cập nhật ảnh chân dung trùng thẻ cư trú.",
+        from: "Willtec東京サポート",
+        text: "所属機関欄をハイライト済み。顔写真は在留カードと同じものに更新願います。",
         at: "2026-04-21T09:20:00",
       },
     ],
   },
   {
     id: "t2",
-    title: "Hoa hồng — Job 宿泊 (Yokohama)",
-    participants: ["Willtec Hỗ trợ Tokyo", "自社支援企業 ABC Food"],
+    title: "手数料 — 宿泊求人（横浜）",
+    participants: ["Willtec東京サポート", "自社支援企業 ABC Food"],
     messages: [
       {
         id: "m1",
         threadId: "t2",
         from: "自社支援企業 ABC Food",
-        text: "Xác nhận mức 11% hoa hồng khi ứng viên trúng tuyển qua B2B.",
+        text: "B2B紹介で内定時の手数料11%で問題ないかご確認を。",
         at: "2026-04-20T14:00:00",
       },
     ],
@@ -326,7 +326,7 @@ export const campaigns: MarketingCampaign[] = [
 export const socialLeads: SocialLead[] = [
   {
     id: "L-101",
-    name: "Lê Thị (FB Lead)",
+    name: "レー氏（Meta）",
     phone: "090-XXXX-0001",
     campaignId: "cmp1",
     source: "Meta Lead Ads",
@@ -335,7 +335,7 @@ export const socialLeads: SocialLead[] = [
   },
   {
     id: "L-102",
-    name: "Hoàng (IG DM)",
+    name: "ホアン（Instagram）",
     phone: "080-XXXX-2002",
     campaignId: "cmp2",
     source: "Instagram",
@@ -350,7 +350,7 @@ export const commissions: CommissionRow[] = [
     kind: "listing",
     amountMan: 5,
     party: "Agent a1",
-    ref: "Job j3 đăng tin 有料",
+    ref: "求人j3 有料掲載",
     status: "paid",
   },
   {
@@ -364,10 +364,10 @@ export const commissions: CommissionRow[] = [
 ];
 
 export const masterIndustries = [
-  { code: "const", labelJa: "建設", labelVi: "Xây dựng" },
-  { code: "food", labelJa: "外食", labelVi: "Nhà hàng" },
-  { code: "care", labelJa: "介護", labelVi: "Hộ lý" },
-  { code: "mfg", labelJa: "製造", labelVi: "Chế tạo" },
+  { code: "const", labelJa: "建設", labelVi: "建設" },
+  { code: "food", labelJa: "外食", labelVi: "外食" },
+  { code: "care", labelJa: "介護", labelVi: "介護" },
+  { code: "mfg", labelJa: "製造", labelVi: "製造" },
 ];
 
 export const masterVisa = [

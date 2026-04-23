@@ -25,7 +25,7 @@ export function LogoutButton() {
       disabled={busy}
       className="app-btn app-btn-secondary app-btn-sm disabled:opacity-50"
     >
-      {busy ? "…" : "Đăng xuất"}
+      {busy ? "…" : "ログアウト"}
     </button>
   );
 }

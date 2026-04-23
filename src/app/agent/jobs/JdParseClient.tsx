@@ -9,7 +9,7 @@ import {
 
 const jlptOptions = ["N5", "N4", "N3", "N2", "N1", "不問"] as const;
 
-/** Trễ giả lập thời gian phản hồi phân tích (staging). */
+/** 解析レスポンスの模擬遅延（staging） */
 const PARSE_FAKE_MS_MIN = 1_200;
 const PARSE_FAKE_MS_MAX = 2_200;
 
@@ -57,7 +57,7 @@ export function JdParseClient() {
   const onFilePick = (f: File | null) => {
     if (!f) return;
     if (f.size > 10 * 1024 * 1024) {
-      window.alert("File vượt quá 10MB (giới hạn hệ thống).");
+      window.alert("ファイルサイズは10MB以下にしてください。");
       return;
     }
     setFileName(f.name);
@@ -73,7 +73,7 @@ export function JdParseClient() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.title.trim() || !form.industry.trim()) {
-      window.alert("Vui lòng điền ít nhất 職名 (tiêu đề) và 分野 (ngành).");
+      window.alert("少なくとも「職名」と「分野」を入力してください。");
       return;
     }
     setPosted(true);
@@ -89,7 +89,7 @@ export function JdParseClient() {
       <div
         className="overflow-hidden rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] shadow-[var(--app-shadow-card)] dark:border-zinc-800/80 dark:bg-zinc-900/40"
         role="region"
-        aria-label="Khối upload và chỉnh sửa JD"
+        aria-label="JDアップロードと編集フォーム"
       >
         <div className="flex flex-wrap items-center gap-3 border-b border-[var(--app-border)] bg-gradient-to-r from-blue-50/90 to-transparent px-4 py-3 dark:from-blue-950/25 dark:border-zinc-800/80 dark:to-transparent">
           <div
@@ -101,10 +101,10 @@ export function JdParseClient() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--app-text-muted)]">
-              Job Composer
+              ジョブコンポーザー
             </p>
             <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-              Upload JD · Chỉnh form · Xem trước PDF
+              JDをアップロード · フォーム編集 · PDFプレビュー
             </p>
           </div>
         </div>
@@ -112,10 +112,10 @@ export function JdParseClient() {
         <div className="border-b border-[var(--app-border)] bg-white/70 px-3 py-2 sm:px-4 sm:py-2.5 dark:border-zinc-800/80 dark:bg-zinc-900/25">
           <div className="mb-1.5 flex flex-col gap-0.5 sm:mb-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
             <h3 className="text-sm font-medium leading-tight text-zinc-800 dark:text-zinc-100" id="jd-upload-heading">
-              Import JD
+              JDの取り込み
             </h3>
             <p className="text-[11px] leading-snug text-[var(--app-text-muted)]" id="jd-upload-hint">
-              Chỉ lưu tên file trên trình duyệt. Dữ liệu phân tích là mô phỏng nội bộ.
+              ブラウザ上ではファイル名のみ保存。解析は社内のモックです。
             </p>
           </div>
           <div
@@ -139,14 +139,14 @@ export function JdParseClient() {
               }}
               onDragLeave={() => setIsDragging(false)}
               onDrop={handleDrop}
-              aria-label="Vùng kéo thả tệp JD, hoặc dùng nút chọn file"
+              aria-label="JDファイルのドラッグ＆ドロップ、またはファイル選択"
             >
               <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1.5 sm:gap-2">
                 <span className="shrink-0 text-xs text-zinc-600 dark:text-zinc-400" aria-hidden>
-                  Kéo thả hoặc
+                  ドロップまたは
                 </span>
                 <label className="app-btn app-btn-secondary app-btn-sm cursor-pointer shrink-0">
-                  Chọn file
+                  ファイルを選ぶ
                   <input
                     type="file"
                     className="sr-only"
@@ -162,7 +162,7 @@ export function JdParseClient() {
                       {fileName}
                     </span>
                   ) : (
-                    <span className="italic">Chưa chọn tệp</span>
+                    <span className="italic">未選択</span>
                   )}
                 </span>
               </div>
@@ -177,13 +177,13 @@ export function JdParseClient() {
                 disabled={isParsing}
                 className="app-btn app-btn-primary inline-flex w-full items-center justify-center gap-2 disabled:pointer-events-none disabled:opacity-75"
               >
-                {isParsing ? "Đang phân tích…" : "Phân tích JD (AI)"}
+                {isParsing ? "解析中…" : "JDをAI解析"}
               </button>
               <p className="mt-1 text-center text-[10px] leading-tight sm:text-left" aria-live="polite">
                 {isParsing ? (
-                  <span className="text-blue-600 dark:text-blue-400">Đang sinh dữ liệu mẫu từ JD…</span>
+                  <span className="text-blue-600 dark:text-blue-400">JDからサンプルデータを生成中…</span>
                 ) : (
-                  <span className="text-zinc-500">Bấm để tạo nội dung gợi ý cho form.</span>
+                  <span className="text-zinc-500">クリックでフォームへの提案内容を生成します。</span>
                 )}
               </p>
             </div>
@@ -192,10 +192,10 @@ export function JdParseClient() {
 
         <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col bg-slate-50/50 dark:bg-zinc-950/30">
           <div className="border-b border-zinc-100/90 px-4 py-3 dark:border-zinc-800/80">
-            <h3 className="text-sm font-medium text-zinc-800 dark:text-zinc-100">Thông tin cơ bản</h3>
+            <h3 className="text-sm font-medium text-zinc-800 dark:text-zinc-100">基本情報</h3>
             {parseTick > 0 && (
               <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-300" role="status">
-                Đã áp dụng kết quả phân tích lần {parseTick}.
+                解析結果を{parseTick}回目に反映しました。
               </p>
             )}
             {posted && (
@@ -203,22 +203,22 @@ export function JdParseClient() {
                 className="mt-2 rounded-lg border border-emerald-200/80 bg-emerald-50/90 px-3 py-2 text-xs text-emerald-900 dark:border-emerald-800/50 dark:bg-emerald-950/30 dark:text-emerald-200"
                 role="status"
               >
-                Đã gửi bản ghi duyệt nội bộ.
+                社内承認用のレコードを送信しました。
               </p>
             )}
           </div>
           <div className="max-h-[min(75dvh,56rem)] space-y-3 overflow-y-auto px-4 py-4">
-            <Field label="職名 / Tiêu đề tin" required>
+            <Field label="職名 / 求人タイトル" required>
               <input
                 className="app-input w-full"
                 value={form.title}
                 onChange={(e) => setForm(updateField("title", e.target.value))}
-                placeholder="Ví dụ: 特定技能 建設 — …"
+                placeholder="例: 特定技能 建設 — …"
                 required
               />
             </Field>
             <div className="grid gap-3 sm:grid-cols-2">
-              <Field label="分野 / Ngành" required>
+              <Field label="分野 / 業種" required>
                 <input
                   className="app-input w-full"
                   value={form.industry}
@@ -226,7 +226,7 @@ export function JdParseClient() {
                   placeholder="建設, 食料品製造…"
                 />
               </Field>
-              <Field label="勤務地 / Địa điểm" required>
+              <Field label="勤務地 / 勤務地" required>
                 <input
                   className="app-input w-full"
                   value={form.city}
@@ -235,7 +235,7 @@ export function JdParseClient() {
               </Field>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <Field label="給与 / Lương">
+              <Field label="給与 / 月給">
                 <input
                   className="app-input w-full"
                   value={form.salary}
@@ -251,7 +251,7 @@ export function JdParseClient() {
               </Field>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <Field label="JLPT yêu cầu">
+              <Field label="必要JLPT">
                 <select
                   className="app-input w-full"
                   value={form.requiredJlpt}
@@ -264,7 +264,7 @@ export function JdParseClient() {
                   ))}
                 </select>
               </Field>
-              <Field label="Hoa hồng B2B (%)">
+              <Field label="B2B紹介手数料 (%)">
                 <input
                   className="app-input w-full"
                   value={form.shareCommission}
@@ -273,7 +273,7 @@ export function JdParseClient() {
                 />
               </Field>
             </div>
-            <Field label="業務内容 / Mô tả công việc">
+            <Field label="業務内容 / 仕事内容">
               <textarea
                 className="app-input min-h-[88px] w-full resize-y"
                 value={form.workContent}
@@ -281,13 +281,13 @@ export function JdParseClient() {
                 rows={4}
               />
             </Field>
-            <Field label="応募条件 / Yêu cầu (mỗi dòng hoặc ngắt đoạn)">
+            <Field label="応募条件 / 応募要件（1行ずつ）">
               <textarea
                 className="app-input min-h-[100px] w-full resize-y font-mono text-xs"
                 value={form.requirements}
                 onChange={(e) => setForm(updateField("requirements", e.target.value))}
                 rows={5}
-                placeholder="Mỗi dòng một điều kiện…"
+                placeholder="1行につき1つの要件を入力…"
               />
             </Field>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -299,7 +299,7 @@ export function JdParseClient() {
                   rows={3}
                 />
               </Field>
-              <Field label="福利厚生 / Phúc lợi">
+              <Field label="福利厚生 / 福利厚生">
                 <textarea
                   className="app-input min-h-[72px] w-full resize-y text-sm"
                   value={form.benefits}
@@ -316,7 +316,7 @@ export function JdParseClient() {
                   onChange={(e) => setForm(updateField("headcount", e.target.value))}
                 />
               </Field>
-              <Field label="試用期間 / Thử việc">
+              <Field label="試用期間 / 試用期間">
                 <input
                   className="app-input w-full"
                   value={form.trialPeriod}
@@ -324,7 +324,7 @@ export function JdParseClient() {
                 />
               </Field>
             </div>
-            <Field label="Ghi chú nội bộ / 備考 (không bắt buộc)">
+            <Field label="社内メモ / 備考（任意）">
               <textarea
                 className="app-input min-h-[60px] w-full resize-y text-sm"
                 value={form.notes}
@@ -336,7 +336,7 @@ export function JdParseClient() {
           <div className="shrink-0 border-t border-zinc-100 px-4 py-3 dark:border-zinc-800/80">
             <div className="flex flex-wrap gap-2">
               <button type="submit" className="app-btn app-btn-primary app-btn-sm">
-                Đăng tin
+                投稿する
               </button>
               <button
                 type="button"
@@ -348,10 +348,10 @@ export function JdParseClient() {
                   setParseTick(0);
                 }}
               >
-                Xóa form
+                フォームをクリア
               </button>
               <button type="button" className="app-btn app-btn-secondary app-btn-sm" onClick={() => window.print()}>
-                Xuất PDF
+                PDF出力
               </button>
             </div>
           </div>
@@ -362,8 +362,8 @@ export function JdParseClient() {
         <div className="overflow-hidden rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] shadow-[var(--app-shadow-card)] dark:border-zinc-800/80 dark:bg-zinc-900/40">
           <div className="flex items-center justify-between border-b border-[var(--app-border)] px-4 py-3 dark:border-zinc-800/80">
             <div>
-              <p className="text-xs font-semibold text-zinc-500">Xem trước</p>
-              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Bản in PDF</p>
+              <p className="text-xs font-semibold text-zinc-500">プレビュー</p>
+              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">PDF印刷</p>
             </div>
             <button type="button" className="app-btn app-btn-secondary app-btn-sm" onClick={() => window.print()}>
               PDF
@@ -372,23 +372,23 @@ export function JdParseClient() {
           <div className="max-h-[min(75dvh,56rem)] overflow-y-auto bg-white p-4 text-sm dark:bg-zinc-950/60">
             <div className="rounded-xl border border-zinc-200/90 dark:border-zinc-700/80">
               <div className="border-b border-zinc-200/90 px-3 py-2 dark:border-zinc-700/80">
-                <p className="text-xs text-zinc-500">ID công việc: {fileName ? "IMPORT" : "DRAFT"}</p>
-                <h4 className="mt-1 text-base font-semibold text-app-primary">{form.title || "Chưa có tiêu đề"}</h4>
+                <p className="text-xs text-zinc-500">求人ID: {fileName ? "取込" : "下書"}</p>
+                <h4 className="mt-1 text-base font-semibold text-app-primary">{form.title || "タイトル未入力"}</h4>
                 <p className="mt-1 text-xs text-zinc-500">
-                  {form.industry || "Ngành"} · {form.city || "Địa điểm"}
+                  {form.industry || "業種"} · {form.city || "勤務地"}
                 </p>
               </div>
               <div className="space-y-3 px-3 py-3">
-                <PreviewRow label="Mức lương" value={form.salary} />
-                <PreviewRow label="Loại hợp đồng" value={form.workType} />
-                <PreviewRow label="JLPT yêu cầu" value={form.requiredJlpt} />
-                <PreviewRow label="Số lượng" value={form.headcount} />
-                <PreviewRow label="Thử việc" value={form.trialPeriod} />
-                <PreviewRow label="Giờ làm việc" value={form.workHours} multiline />
-                <PreviewRow label="Phúc lợi" value={form.benefits} multiline />
-                <PreviewRow label="Mô tả công việc" value={form.workContent} multiline />
+                <PreviewRow label="給与" value={form.salary} />
+                <PreviewRow label="雇用形態" value={form.workType} />
+                <PreviewRow label="必要JLPT" value={form.requiredJlpt} />
+                <PreviewRow label="採用人数" value={form.headcount} />
+                <PreviewRow label="試用期間" value={form.trialPeriod} />
+                <PreviewRow label="勤務時間" value={form.workHours} multiline />
+                <PreviewRow label="福利厚生" value={form.benefits} multiline />
+                <PreviewRow label="業務内容" value={form.workContent} multiline />
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Yêu cầu ứng tuyển</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">応募要件</p>
                   {requirementLines.length > 0 ? (
                     <ul className="mt-1.5 list-disc space-y-1 pl-4 text-sm text-zinc-700 dark:text-zinc-300">
                       {requirementLines.map((line, i) => (
@@ -396,7 +396,7 @@ export function JdParseClient() {
                       ))}
                     </ul>
                   ) : (
-                    <p className="mt-1 text-sm italic text-zinc-400">Chưa có nội dung</p>
+                    <p className="mt-1 text-sm italic text-zinc-400">未入力</p>
                   )}
                 </div>
               </div>

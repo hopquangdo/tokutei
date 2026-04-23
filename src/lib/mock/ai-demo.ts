@@ -1,4 +1,4 @@
-/** Dữ liệu OCR + rule nội bộ (staging) — chưa gọi API nhà cung cấp */
+/** 社内OCR＋ルールのモック（staging）— 外部API未接続 */
 
 export type SimulatedOcr = {
   residence: {
@@ -22,7 +22,7 @@ export function simulateOcrAndRules(): SimulatedOcr {
   return {
     residence: {
       cardNo: "AB12CD34E567",
-      statusText: "有効 (đang còn hạn) — tra cứu App Cục",
+      statusText: "有効（期限内）— 入管アプリ照会済",
       expiry: "2028-12-15",
       zairyu: "特定技能1号 — 建設",
     },
@@ -35,8 +35,8 @@ export function simulateOcrAndRules(): SimulatedOcr {
     confidence: 0.95,
     banner: "ok",
     notes: [
-      "Ngành tuyển (Job) khớp 建設 với 指定書.",
-      "Dấu trên 指定書: độ nét/đóng băng ổn định (điểm CQI dấu).",
+      "求人分野（Job）と指定書の分野（建設）が一致。",
+      "指定書の印影：解像度・鮮明度が安定（CQI印影スコア良好）。",
     ],
   };
 }
@@ -45,7 +45,7 @@ export function simulateMismatchOcr(): SimulatedOcr {
   return {
     residence: {
       cardNo: "ZZ99YY88X777",
-      statusText: "Cảnh báo: sai ngành công việc so với Job",
+      statusText: "警告：職種が求人と不整合",
       expiry: "2027-01-20",
       zairyu: "特定技能1号 — 食料品製造",
     },
@@ -58,8 +58,8 @@ export function simulateMismatchOcr(): SimulatedOcr {
     confidence: 0.78,
     banner: "warning",
     notes: [
-      "Job mở: 外食; Shiteisho: 食料品製造 — cần xem xét 業務内容 chi tiết.",
-      "Dữ liệu ổn về bản số — nhưng cần Agent xác nhận bằng tay.",
+      "求人: 外食、指定書: 食料品製造 — 業務内容の詳細確認を推奨。",
+      "券面番号は整合 — 最終判断は登録支援機関が手動で確認。",
     ],
   };
 }
@@ -78,26 +78,26 @@ export function simulateCvPolish(ja: string) {
 export function simulateMatching(criteria: { jlpt: string; field: string }) {
   return [
     {
-      name: "Nguyễn Văn A",
+      name: "グエン・ヴァン・アー",
       score: 91,
       reasons: [
-        `JLPT ${criteria.jlpt} — đủ điều kiện`,
-        "Skill stack gần 建設",
-        "CQI: hòa đồng team & kỷ luật thời gian Nhật Bản: +",
+        `JLPT ${criteria.jlpt} — 要件を満たす`,
+        "スキル寄り: 建設",
+        "CQI: チーム協調と時間管理（日本）+",
       ],
     },
     {
-      name: "Trần Thị B",
+      name: "チャン・ティ・ビー",
       score: 86,
       reasons: [
-        "JLPT cao hơn mức tối thiểu",
-        "Ngành khác 介護 — chỉ nếu chuyển 職種 thì cần xét lại",
+        "JLPTは最低ライン超え",
+        "分野は介護 — 職種変更時は要再審査",
       ],
     },
   ];
 }
 
-/** Gợi ý AI đọc JD (PDF/Word) — điền form đăng tin. */
+/** AIによるJD（PDF/Word）読取 — 掲載フォームへの提案 */
 export type SimulatedJdParse = {
   title: string;
   industry: string;

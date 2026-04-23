@@ -1,17 +1,19 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { simulateCvPolish } from "@/lib/mock/ai-demo";
 
 type TabId = "general" | "it" | "shokumu";
 
+type ChatMsg = { id: string; role: "user" | "assistant"; text: string };
+
 const templates: { id: TabId; label: string; sub: string }[] = [
-  { id: "general", label: "Template chung", sub: "履歴書" },
-  { id: "it", label: "CV IT", sub: "IT 職務経歴" },
-  { id: "shokumu", label: "Kỹ thuật", sub: "職務経歴書" },
+  { id: "general", label: "汎用", sub: "履歴書" },
+  { id: "it", label: "IT向け", sub: "IT 職務経歴" },
+  { id: "shokumu", label: "技術職", sub: "職務経歴書" },
 ];
 
-const formats = "PDF, Word, ảnh, TXT (tối đa 10MB/tệp)";
+const formats = "PDF、Word、画像、TXT（1ファイル10MBまで）";
 
 export function CvBuilderClient() {
   const cvRef = useRef<HTMLInputElement>(null);
@@ -25,18 +27,54 @@ export function CvBuilderClient() {
   const [dob, setDob] = useState("1995-04-20");
   const [age, setAge] = useState("30");
 
+  const [chatMessages, setChatMessages] = useState<ChatMsg[]>([
+    {
+      id: "welcome",
+      role: "assistant",
+      text: "履歴書の改善をサポートします。CV・JDをアップロードしたうえで、修正したい点や希望をチャットで送ってください。（デモ応答）",
+    },
+  ]);
+  const [chatDraft, setChatDraft] = useState("");
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  const appendAssistant = useCallback((text: string) => {
+    setChatMessages((m) => [
+      ...m,
+      { id: `a-${Date.now()}`, role: "assistant", text },
+    ]);
+  }, []);
+
+  const sendChat = useCallback(
+    (e?: React.FormEvent) => {
+      e?.preventDefault();
+      const t = chatDraft.trim();
+      if (!t) return;
+      setChatMessages((m) => [...m, { id: `u-${Date.now()}`, role: "user", text: t }]);
+      setChatDraft("");
+      const cvHint = cvFile ? "CVはアップロード済みです。" : "まだCVが未アップロードです。";
+      const jdHint = jdFile ? "JDはアップロード済みです。" : "JDは未アップロードです。";
+      window.setTimeout(() => {
+        appendAssistant(
+          `「${t.slice(0, 120)}${t.length > 120 ? "…" : ""}」について反映しました。${cvHint}${jdHint} 職務要約を箇条書きで短くし、数値実績があれば追記してください（モック）。`,
+        );
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    },
+    [appendAssistant, chatDraft, cvFile, jdFile],
+  );
+
   const previewText = useMemo(() => {
     const src = [
-      cvFile ? `CV: ${cvFile}` : "CV: chưa tải",
-      jdFile ? `JD: ${jdFile}` : "JD: chưa tải",
+      cvFile ? `CV: ${cvFile}` : "CV: 未アップロード",
+      jdFile ? `JD: ${jdFile}` : "JD: 未アップロード",
     ].join("\n");
-    return simulateCvPolish(`Nguồn hồ sơ:\n${src}`);
+    return simulateCvPolish(`元データ:\n${src}`);
   }, [cvFile, jdFile]);
 
   const onPick = (kind: "cv" | "jd", file: File | null) => {
     if (!file) return;
     if (file.size > 10 * 1024 * 1024) {
-      window.alert("File vượt quá 10MB.");
+      window.alert("ファイルサイズは10MB以下にしてください。");
       return;
     }
     if (kind === "cv") setCvFile(file.name);
@@ -45,13 +83,13 @@ export function CvBuilderClient() {
 
   return (
     <div className="grid w-full min-h-0 max-w-full grid-cols-1 gap-4 lg:h-[calc(100dvh-7.5rem)] lg:grid-cols-[minmax(0,1fr)_min(100%,420px)] lg:grid-rows-1 lg:gap-5">
-      <section className="flex min-h-[min(50dvh,22rem)] flex-col overflow-hidden rounded-3xl border border-zinc-200/60 bg-white shadow-[0_8px_40px_-12px_rgba(0,0,0,0.08)] lg:h-full lg:min-h-0 dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="border-b border-zinc-100/80 px-4 py-3 dark:border-zinc-800/80">
-          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Upload hồ sơ</p>
-          <p className="text-[11px] text-zinc-500">Chỉ upload CV và JD. Bỏ các công cụ “thêm” khác.</p>
+      <section className="flex min-h-[min(56dvh,28rem)] flex-col overflow-hidden rounded-3xl border border-zinc-200/60 bg-white shadow-[0_8px_40px_-12px_rgba(0,0,0,0.08)] lg:min-h-0 lg:h-full dark:border-zinc-800 dark:bg-zinc-900">
+        <div className="shrink-0 border-b border-zinc-100/80 px-4 py-3 dark:border-zinc-800/80">
+          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">書類をアップロード</p>
+          <p className="text-[11px] text-zinc-500">CVとJDのみアップロード。その他の付加ツールはありません。</p>
         </div>
 
-        <div className="space-y-3 p-4">
+        <div className="shrink-0 space-y-3 p-4">
           <input
             ref={cvRef}
             type="file"
@@ -76,23 +114,70 @@ export function CvBuilderClient() {
           />
 
           <UploadCard
-            title="Upload CV"
+            title="CVをアップロード"
             hint={formats}
             fileName={cvFile}
             onClick={() => cvRef.current?.click()}
           />
           <UploadCard
-            title="Upload JD"
+            title="JDをアップロード"
             hint={formats}
             fileName={jdFile}
             onClick={() => jdRef.current?.click()}
           />
         </div>
+
+        <div
+          className="flex min-h-[12rem] flex-1 flex-col border-t border-zinc-100/90 lg:min-h-0 dark:border-zinc-800/80"
+          role="region"
+          aria-label="AIチャット"
+        >
+          <div className="shrink-0 px-4 pt-3">
+            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-100">AIアシスタント</p>
+            <p className="text-[10px] text-zinc-500">指示を送るとプレビュー用の文面案が返ります（デモ）。</p>
+          </div>
+          <div className="min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-y-contain px-4 py-2">
+            {chatMessages.map((m) => (
+              <div
+                key={m.id}
+                className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
+              >
+                <div
+                  className={
+                    m.role === "user"
+                      ? "max-w-[min(100%,18rem)] rounded-2xl rounded-br-sm border border-blue-200/80 bg-blue-50 px-3 py-2 text-xs text-zinc-900 dark:border-blue-500/20 dark:bg-blue-950/50 dark:text-zinc-100"
+                      : "max-w-[min(100%,20rem)] rounded-2xl rounded-bl-sm border border-zinc-200/90 bg-zinc-50/90 px-3 py-2 text-xs text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-100"
+                  }
+                >
+                  <p className="whitespace-pre-wrap leading-relaxed">{m.text}</p>
+                </div>
+              </div>
+            ))}
+            <div ref={chatEndRef} />
+          </div>
+          <form
+            onSubmit={sendChat}
+            className="shrink-0 border-t border-zinc-100/90 p-3 dark:border-zinc-800/80"
+          >
+            <div className="flex gap-2">
+              <input
+                value={chatDraft}
+                onChange={(e) => setChatDraft(e.target.value)}
+                className="app-input min-w-0 flex-1 text-sm"
+                placeholder="例：職務要約を短くして、数値目標を入れて"
+                aria-label="AIへのメッセージ"
+              />
+              <button type="submit" className="app-btn app-btn-primary app-btn-sm shrink-0">
+                送信
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
 
       <aside className="flex min-h-0 w-full flex-col gap-3 overflow-y-auto overflow-x-hidden lg:h-full">
         <div className="rounded-2xl border border-zinc-200/60 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Template & preview</h3>
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">テンプレートとプレビュー</h3>
           <div className="mt-2 flex gap-0.5 rounded-xl border border-zinc-200/80 bg-white p-0.5 dark:border-zinc-700 dark:bg-zinc-900">
             {templates.map((t) => (
               <button
@@ -116,7 +201,7 @@ export function CvBuilderClient() {
             <span className="font-medium text-zinc-600 dark:text-zinc-300">
               {templates.find((x) => x.id === activeTab)?.sub}
             </span>
-            <span className="text-[#2ECC71]">Xem trước trực tiếp</span>
+            <span className="text-[#2ECC71]">ライブプレビュー</span>
           </div>
 
           <div className="mb-2 grid grid-cols-2 gap-2 text-[11px]">
@@ -185,11 +270,11 @@ function UploadCard({
           <p className="text-[11px] text-zinc-500">{hint}</p>
         </div>
         <button type="button" onClick={onClick} className="app-btn app-btn-secondary app-btn-sm">
-          Chọn file
+          ファイルを選ぶ
         </button>
       </div>
       <p className="mt-2 truncate text-xs text-zinc-600 dark:text-zinc-300">
-        {fileName ? `Đã chọn: ${fileName}` : "Chưa có file"}
+        {fileName ? `選択: ${fileName}` : "未選択"}
       </p>
     </div>
   );

@@ -46,7 +46,7 @@ function ShellBrand({
             {title}
           </span>
           <span className="block truncate text-sm font-bold leading-tight text-zinc-900 transition group-hover:text-[var(--app-primary)] dark:text-zinc-50">
-            Willtec Tokutei
+            ウィルテック トクテイ
           </span>
         </span>
       </Link>
@@ -141,7 +141,7 @@ export function AppShell({
           type="button"
           onClick={() => setOpen(true)}
           className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200/90 text-zinc-700 transition hover:bg-slate-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800/80"
-          aria-label="Mở menu"
+          aria-label="メニューを開く"
         >
           <svg
             className="h-5 w-5"
@@ -167,7 +167,7 @@ export function AppShell({
           <button
             type="button"
             className="absolute inset-0 z-40 bg-slate-950/40 backdrop-blur-sm md:hidden"
-            aria-label="Đóng menu"
+            aria-label="メニューを閉じる"
             onClick={() => setOpen(false)}
           />
         )}
@@ -191,14 +191,14 @@ export function AppShell({
             />
           </div>
           <p className="border-t border-[var(--app-border)] p-3 text-[10px] leading-relaxed text-zinc-500 dark:border-zinc-800/80">
-            Willtec Tokutei · bản dữ liệu staging nội bộ
+            ウィルテック トクテイ · 社内ステージングデータ
           </p>
         </aside>
 
         <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <header
             className={["hidden w-full min-w-0 items-center justify-end gap-2 px-3 md:flex", headerStripClass].join(" ")}
-            aria-label="Tài khoản"
+            aria-label="アカウント"
           >
             <AppUserMenu user={user} />
           </header>

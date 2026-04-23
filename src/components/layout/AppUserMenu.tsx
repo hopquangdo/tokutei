@@ -7,8 +7,8 @@ import type { Role } from "@/lib/auth/types";
 import { defaultHomeForRole } from "@/lib/auth/redirect";
 
 const roleLabel: Record<Role, string> = {
-  candidate: "Ứng viên",
-  agent: "登録支援機関 (Agent)",
+  candidate: "候補者",
+  agent: "登録支援機関",
 };
 
 function initials(name: string) {
@@ -60,7 +60,7 @@ export function AppUserMenu({ user }: { user: { name: string; email: string; rol
         className="app-btn app-btn-primary app-btn-sm shrink-0"
         href={`/login?next=${encodeURIComponent(pathname || "/")}`}
       >
-        Đăng nhập
+        ログイン
       </Link>
     );
   }
@@ -125,7 +125,7 @@ export function AppUserMenu({ user }: { user: { name: string; email: string; rol
               onClick={() => setOpen(false)}
               className="block rounded-lg px-2.5 py-2 text-xs text-zinc-700 transition hover:bg-slate-100 dark:text-zinc-200 dark:hover:bg-zinc-800/80"
             >
-              Về trang đầu khu
+              この区分のトップへ
             </Link>
             <button
               type="button"
@@ -134,7 +134,7 @@ export function AppUserMenu({ user }: { user: { name: string; email: string; rol
               disabled={busy}
               className="mt-0.5 w-full rounded-lg px-2.5 py-2 text-left text-xs font-medium text-rose-700 transition hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950/50 disabled:opacity-50"
             >
-              {busy ? "Đang đăng xuất…" : "Đăng xuất"}
+              {busy ? "ログアウト中…" : "ログアウト"}
             </button>
           </div>
         </div>

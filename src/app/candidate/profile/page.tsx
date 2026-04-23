@@ -10,7 +10,7 @@ const kv = "grid grid-cols-1 gap-x-4 gap-y-2 text-sm sm:grid-cols-2";
 export default async function ProfilePage() {
   const session = await getSession();
   const email = session?.email ?? "ungvien@willtec.local";
-  const displayName = "Đỗ Hợp";
+  const displayName = "ドー・ホップ";
   const cand = getCandidate("c1");
   const mine = applications.filter((a) => a.candidateId === "c1");
   const appCount = mine.length;
@@ -18,7 +18,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="app-page-body relative w-full pb-20">
-      <h1 className="sr-only">Hồ sơ ứng viên</h1>
+      <h1 className="sr-only">候補者プロフィール</h1>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
         <div className="space-y-6 lg:col-span-8">
@@ -40,13 +40,13 @@ export default async function ProfilePage() {
                       <p className="text-2xl font-bold tabular-nums text-blue-700 dark:text-blue-400">
                         {appCount}
                       </p>
-                      <p className="text-[11px] text-zinc-500">Ứng tuyển</p>
+                      <p className="text-[11px] text-zinc-500">応募</p>
                     </div>
                     <div>
                       <p className="text-2xl font-bold tabular-nums text-blue-700 dark:text-blue-400">
                         {upcomingIv}
                       </p>
-                      <p className="text-[11px] text-zinc-500">PV sắp tới</p>
+                      <p className="text-[11px] text-zinc-500">直近の面接</p>
                     </div>
                   </div>
                 </div>
@@ -56,18 +56,18 @@ export default async function ProfilePage() {
             <div className="md:col-span-8">
               <div className={docSurface}>
                 <h3 className="border-b border-zinc-100 pb-2 text-sm font-semibold text-zinc-900 dark:border-zinc-800/80 dark:text-zinc-100">
-                  Thông tin cá nhân
+                  基本情報
                 </h3>
                 <dl className={`${kv} mt-4`}>
-                  <D label="Email" value={email} full />
-                  <D label="Giới tính" value="—" />
-                  <D label="Ngày sinh" value="12/03/2005" />
-                  <D label="Số điện thoại" value="0969994310" />
-                  <D label="Quốc tịch" value={cand ? countryVi(cand.country) : "—"} />
+                  <D label="メール" value={email} full />
+                  <D label="性別" value="—" />
+                  <D label="生年月日" value="12/03/2005" />
+                  <D label="電話番号" value="0969994310" />
+                  <D label="国籍" value={cand ? countryVi(cand.country) : "—"} />
                   <D label="JLPT" value={cand?.jlpt ?? "—"} />
-                  <D label="Tư cách lưu trú" value={cand ? visaLabel(cand.visaCategory) : "—"} />
-                  <D label="Trạng thái hồ sơ" value={cand?.legalOk ? "Đạt yêu cầu" : "Cần bổ sung"} />
-                  <D label="Đăng ký" value="01/2026" />
+                  <D label="在留資格" value={cand ? visaLabel(cand.visaCategory) : "—"} />
+                  <D label="書類状況" value={cand?.legalOk ? "要件を満たす" : "要補足"} />
+                  <D label="登録日" value="01/2026" />
                 </dl>
               </div>
             </div>
@@ -79,15 +79,15 @@ export default async function ProfilePage() {
 
           <div className={docSurface}>
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Tài liệu đính kèm</h3>
-              <span className="text-xs font-medium text-blue-600 dark:text-blue-400">+ Thêm file</span>
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">添付書類</h3>
+              <span className="text-xs font-medium text-blue-600 dark:text-blue-400">+ 追加</span>
             </div>
             <ul className="space-y-2">
               {(
                 [
-                  { n: "在留カード_表.pdf", t: "PDF", sub: "Đã xác minh" },
-                  { n: "指定書_建設_2024.pdf", t: "PDF", sub: "Cần ảnh rõ" },
-                  { n: "CV_ja.docx", t: "DOC", sub: "Đã tải" },
+                  { n: "在留カード_表.pdf", t: "PDF", sub: "確認済み" },
+                  { n: "指定書_建設_2024.pdf", t: "PDF", sub: "鮮明な画像要" },
+                  { n: "CV_ja.docx", t: "DOC", sub: "アップロード済" },
                 ] as const
               ).map((f) => (
                 <li
@@ -113,7 +113,7 @@ export default async function ProfilePage() {
       <button
         type="button"
         className="fixed bottom-6 right-6 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-amber-400 text-zinc-900 shadow-lg transition hover:bg-amber-300 dark:bg-amber-500 dark:hover:bg-amber-400"
-        aria-label="Hỗ trợ / chat"
+        aria-label="サポート / チャット"
       >
         <ChatBubbleIcon className="h-6 w-6" />
       </button>
@@ -139,7 +139,7 @@ function D({
 }
 
 function countryVi(code: string) {
-  if (code === "VN") return "Việt Nam";
+  if (code === "VN") return "ベトナム";
   return code;
 }
 

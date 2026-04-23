@@ -6,7 +6,7 @@ export default function AgentCandidates() {
 
   return (
     <div className="app-page-body w-full min-w-0">
-      <h1 className="sr-only">Kho ứng viên nội bộ</h1>
+      <h1 className="sr-only">自社候補者プール</h1>
       <AgentCandidatesClient initial={mine} />
     </div>
   );

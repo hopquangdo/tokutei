@@ -41,7 +41,7 @@ export function ProfileLegalUploadCard() {
         setErrorDetail(null);
       } else {
         setStatus("error");
-        setErrorDetail("Không tải được tệp. Thử lại với tệp khác hoặc định dạng được hỗ trợ.");
+        setErrorDetail("ファイルを読み込めませんでした。別のファイルか対応形式で再試行してください。");
       }
     }, 1400);
   }, []);
@@ -61,14 +61,13 @@ export function ProfileLegalUploadCard() {
   return (
     <div className="rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900/50">
       <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-        Tải tài liệu pháp lý
+        法的書類のアップロード
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-        Tải lên tài liệu như{" "}
-        <span className="font-medium text-zinc-800 dark:text-zinc-200">Thẻ cư trú</span>,{" "}
-        <span className="font-medium text-zinc-800 dark:text-zinc-200">Hộ chiếu</span>,{" "}
-        <span className="font-medium text-zinc-800 dark:text-zinc-200">Tờ chỉ định (指定書)</span> — ảnh
-        hoặc PDF.
+        次の書類の画像またはPDF:
+        <span className="font-medium text-zinc-800 dark:text-zinc-200">在留カード</span>、
+        <span className="font-medium text-zinc-800 dark:text-zinc-200">パスポート</span>、
+        <span className="font-medium text-zinc-800 dark:text-zinc-200">指定書</span>。
       </p>
       <input
         ref={inputRef}
@@ -85,7 +84,7 @@ export function ProfileLegalUploadCard() {
             className="mb-3 flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-950/50 dark:text-emerald-200"
           >
             <CheckIcon className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-            <span>Đã tải tài liệu thành công.</span>
+            <span>アップロードが完了しました。</span>
           </p>
         )}
         {status === "error" && (
@@ -94,7 +93,7 @@ export function ProfileLegalUploadCard() {
             className="mb-3 flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-900 dark:border-red-500/30 dark:bg-red-950/50 dark:text-red-200"
           >
             <CloseIcon className="mt-0.5 h-4 w-4 shrink-0 text-red-600 dark:text-red-400" />
-            <span>{errorDetail ?? "Tải lên thất bại. Vui lòng thử lại."}</span>
+            <span>{errorDetail ?? "アップロードに失敗しました。再度お試しください。"}</span>
           </p>
         )}
 
@@ -128,7 +127,7 @@ export function ProfileLegalUploadCard() {
           {status === "uploading" ? (
             <span className="inline-flex flex-col items-center gap-2">
               <span className="h-6 w-6 animate-spin rounded-full border-2 border-blue-400 border-t-transparent" />
-              <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Đang tải lên…</span>
+              <span className="text-sm font-medium text-blue-800 dark:text-blue-200">アップロード中…</span>
             </span>
           ) : (
             <>
@@ -136,9 +135,9 @@ export function ProfileLegalUploadCard() {
                 <UploadIcon className="h-5 w-5" />
               </span>
               <p className="mt-3 text-sm font-medium text-blue-800 dark:text-blue-200">
-                Chọn file hoặc kéo thả vào đây
+                ファイルを選ぶか、ここにドラッグ＆ドロップ
               </p>
-              <p className="mt-1 text-xs text-zinc-500">Ảnh hoặc PDF — có thể chọn nhiều file</p>
+              <p className="mt-1 text-xs text-zinc-500">画像またはPDF（複数可）</p>
             </>
           )}
         </button>
@@ -152,7 +151,7 @@ export function ProfileLegalUploadCard() {
           </ul>
         )}
         <p className="mt-2 text-center text-[11px] text-zinc-500">
-          Tệp được xử lý nội bộ trước khi đồng bộ máy chủ.
+          社内で処理のうえ、サーバへ同期します（デモ）。
         </p>
       </div>
     </div>

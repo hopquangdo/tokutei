@@ -2,8 +2,8 @@ import { AppShell, type AppNavItem } from "@/components/layout/AppShell";
 import { getSession } from "@/lib/auth/session";
 
 const nav: AppNavItem[] = [
-  { href: "/", label: "Trang chủ nền tảng", icon: "home" },
-  { href: "/demo/verification", label: "Luồng xác thực 4 bước", icon: "scan" },
+  { href: "/", label: "プラットフォームTOP", icon: "home" },
+  { href: "/demo/verification", label: "4段階本人確認フロー", icon: "scan" },
 ];
 
 export default async function DemoLayout({ children }: { children: React.ReactNode }) {
@@ -16,8 +16,8 @@ export default async function DemoLayout({ children }: { children: React.ReactNo
     <div className="flex min-h-dvh flex-col">
       <div className="flex min-h-0 flex-1 flex-col">
         <AppShell
-          title="Tài liệu"
-          badge="Hướng dẫn"
+          title="ドキュメント"
+          badge="ガイド"
           variant="demo"
           nav={nav}
           user={user}

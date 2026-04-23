@@ -4,20 +4,20 @@ import { Card } from "@/components/ui/Card";
 const cards = [
   {
     href: "/login?next=%2Fcandidate",
-    title: "Candidate Site",
-    desc: "Ứng viên: đăng ký, AI OCR, CV Builder, ứng tuyển, tin nhắn với Agent.",
+    title: "候補者向けサイト",
+    desc: "候補者向け：登録、AI OCR、CVビルダー、応募、登録支援機関とのメッセージ。",
   },
   {
     href: "/login?next=%2Fagent",
-    title: "Agent Site (登録支援機関)",
-    desc: "Quản lý Job & ứng viên, pipeline, marketplace B2B, chat, tiến cử.",
+    title: "登録支援機関向けサイト",
+    desc: "求人・候補者管理、パイプライン、B2Bマーケットプレイス、チャット、紹介。",
   },
 ] as const;
 
 const roadmap = [
-  "Số hóa hồ sơ, OCR 在留・指定書, CV hỗ trợ AI và tìm việc nội bộ theo 特定技能.",
-  "Marketplace B2B, hub ứng viên, chat giữa Agent, pipeline và tiến cử có thể theo dõi.",
-  "Marketing & lead, matching thông minh theo JLPT / CQI và resume.",
+  "書類のデジタル化、在留・指定書のOCR、AI履歴書支援、特定技能向け社内求人検索。",
+  "B2Bマーケットプレイス、候補者ハブ、登録支援機関間チャット、パイプラインと紹介の追跡。",
+  "マーケティング・リード、JLPT / CQI・履歴書に基づくマッチング。",
 ];
 
 export default function Home() {
@@ -36,14 +36,13 @@ export default function Home() {
             aria-hidden
           />
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--app-primary)]">
-            Willtec · Tokutei Platform
+            ウィルテック · 特定技能プラットフォーム
           </p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
-            Nền tảng tuyển dụng 特定技能
+            特定技能 採用プラットフォーム
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--app-text-muted)]">
-            Tách khu theo vai trò (Ứng viên, 登録支援機関), phân quyền rõ ràng — một
-            luồng ứng tuyển và tuyển dụng 特定技能 tập trung.
+            役割（候補者・登録支援機関）ごとに区分し、権限を明確に — 特定技能の応募・採用を一つの流れで。
           </p>
         </div>
 
@@ -75,7 +74,7 @@ export default function Home() {
                   {c.desc}
                 </p>
                 <span className="mt-4 inline-flex items-center text-xs font-semibold text-[var(--app-primary)] group-hover:underline">
-                  Bắt đầu
+                  はじめる
                   <span className="ml-1" aria-hidden>
                     →
                   </span>

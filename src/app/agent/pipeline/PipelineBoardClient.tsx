@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { applications as seedApplications, getCandidate, getJob } from "@/lib/mock/seed";
-import { PIPELINE_STAGE_LABEL_VI } from "@/lib/mock/platform-dashboard-data";
+import { PIPELINE_STAGE_LABEL_JA } from "@/lib/mock/platform-dashboard-data";
 import type { Application, ApplicationClosedReason, PipelineStage } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
 
@@ -43,8 +43,8 @@ export function PipelineBoardClient() {
               closed: reason,
               closedNote:
                 reason === "rejected"
-                  ? "Từ chối từ pipeline"
-                  : "Rút khỏi pipeline",
+                  ? "パイプラインで不採用"
+                  : "パイプラインから取り下げ",
             }
           : a
       )
@@ -80,7 +80,7 @@ export function PipelineBoardClient() {
 
   return (
     <div>
-      <h2 className="sr-only">Kanban theo từng bước</h2>
+      <h2 className="sr-only">段階別カンバン</h2>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {OPEN_STAGES.map((st) => {
           const items = byOpenStage(st);
@@ -97,7 +97,7 @@ export function PipelineBoardClient() {
               >
                 <div className="flex items-center justify-between gap-2 border-b border-zinc-100 pb-2 dark:border-zinc-800/80">
                   <h3 className="text-xs font-semibold uppercase tracking-wide text-zinc-800 dark:text-zinc-100">
-                    {PIPELINE_STAGE_LABEL_VI[st]}
+                    {PIPELINE_STAGE_LABEL_JA[st]}
                   </h3>
                   <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
                     {items.length}
@@ -106,7 +106,7 @@ export function PipelineBoardClient() {
                 <ul className="mt-2 min-h-0 flex-1 space-y-1.5 overflow-y-auto">
                   {items.length === 0 ? (
                     <li className="rounded-lg border border-dashed border-zinc-200/80 p-3 text-center text-[11px] text-zinc-400 dark:border-zinc-700/60">
-                      Trống — thả hồ sơ vào đây
+                      空です — 応募をここにドロップ
                     </li>
                   ) : (
                     items.map((a) => (
@@ -126,14 +126,14 @@ export function PipelineBoardClient() {
       </div>
 
       <h3 className="mt-6 text-xs font-semibold uppercase tracking-wide text-zinc-500">
-        Hồ sơ đã kết thúc
+        終了した応募
       </h3>
       <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
         <div onDragOver={allowDrop} onDrop={(e) => onDrop(e, DROP_REJECTED)}>
           <Card className="flex min-h-[160px] flex-col border-t-4 border-t-rose-500" padding="p-3">
             <div className="flex items-center justify-between gap-2 border-b border-rose-100 pb-2 dark:border-rose-900/50">
               <h3 className="text-xs font-semibold uppercase tracking-wide text-rose-800 dark:text-rose-200">
-                Từ chối
+                不採用
               </h3>
               <span className="rounded-full bg-rose-100 px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-rose-800 dark:bg-rose-900/50 dark:text-rose-200">
                 {rejected.length}
@@ -142,7 +142,7 @@ export function PipelineBoardClient() {
             <ul className="mt-2 min-h-0 flex-1 space-y-1.5 overflow-y-auto">
               {rejected.length === 0 ? (
                 <li className="rounded-lg border border-dashed border-rose-200/60 p-3 text-center text-[11px] text-rose-300 dark:border-rose-800/50">
-                  Chưa có — dùng nút &quot;Từ chối&quot; hoặc kéo vào cột
+                  まだありません —「不採用」ボタンまたは列へドロップ
                 </li>
               ) : (
                 rejected.map((a) => <ClosedCard key={a.id} application={a} />)
@@ -154,7 +154,7 @@ export function PipelineBoardClient() {
           <Card className="flex min-h-[160px] flex-col border-t-4 border-t-amber-500" padding="p-3">
             <div className="flex items-center justify-between gap-2 border-b border-amber-100 pb-2 dark:border-amber-900/50">
               <h3 className="text-xs font-semibold uppercase tracking-wide text-amber-900 dark:text-amber-200">
-                Rút hồ sơ
+                取り下げ
               </h3>
               <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-amber-900 dark:bg-amber-900/30 dark:text-amber-100">
                 {withdrawn.length}
@@ -163,7 +163,7 @@ export function PipelineBoardClient() {
             <ul className="mt-2 min-h-0 flex-1 space-y-1.5 overflow-y-auto">
               {withdrawn.length === 0 ? (
                 <li className="rounded-lg border border-dashed border-amber-200/60 p-3 text-center text-[11px] text-amber-300 dark:border-amber-800/50">
-                  Chưa có — dùng nút &quot;Rút&quot; hoặc kéo vào cột
+                  まだありません —「取り下げ」ボタンまたは列へドロップ
                 </li>
               ) : (
                 withdrawn.map((a) => <ClosedCard key={a.id} application={a} />)
@@ -205,14 +205,14 @@ function PipelineCard({
           onClick={onReject}
           className="rounded-md border border-rose-200/90 bg-rose-50/90 px-2 py-0.5 text-[10px] font-medium text-rose-800 transition hover:bg-rose-100 dark:border-rose-800/60 dark:bg-rose-950/40 dark:text-rose-200"
         >
-          Từ chối
+          不採用
         </button>
         <button
           type="button"
           onClick={onWithdraw}
           className="rounded-md border border-amber-200/90 bg-amber-50/90 px-2 py-0.5 text-[10px] font-medium text-amber-900 transition hover:bg-amber-100/90 dark:border-amber-800/50 dark:bg-amber-950/30 dark:text-amber-100"
         >
-          Rút
+          取下
         </button>
       </div>
     </li>
@@ -235,11 +235,11 @@ function ClosedCard({ application: a }: { application: Application }) {
       <p className="font-medium text-zinc-900 dark:text-zinc-100">{c.name}</p>
       <p className="mt-0.5 line-clamp-2 text-[10px] text-zinc-500">{j.title}</p>
       <p className="mt-1 text-[10px] text-zinc-500">
-        Dừng tại: {PIPELINE_STAGE_LABEL_VI[a.stage]}
+        終了段階: {PIPELINE_STAGE_LABEL_JA[a.stage]}
         {a.closedNote ? ` · ${a.closedNote}` : ""}
       </p>
       <p className="mt-1.5 text-[9px] font-medium text-zinc-400">
-        Kéo về cột bước mở để mở lại hồ sơ
+        オープン段階の列に戻すと再開できます
       </p>
     </li>
   );

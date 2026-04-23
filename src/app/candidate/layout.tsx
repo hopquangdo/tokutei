@@ -2,12 +2,12 @@ import { SidebarLayout } from "@/components/layout/SidebarLayout";
 import type { AppNavItem } from "@/components/layout/SidebarLayout";
 
 const nav: AppNavItem[] = [
-  { href: "/candidate", label: "Tổng quan", icon: "home" },
-  { href: "/candidate/profile", label: "Thông tin cá nhân", icon: "user" },
-  { href: "/candidate/cv-builder", label: "AI CV Builder", icon: "pen" },
-  { href: "/candidate/jobs", label: "Việc làm", icon: "search" },
-  { href: "/candidate/applications", label: "Ứng tuyển", icon: "inbox" },
-  { href: "/candidate/messages", label: "Tin nhắn", icon: "message" },
+  { href: "/candidate", label: "ダッシュボード", icon: "home" },
+  { href: "/candidate/profile", label: "プロフィール", icon: "user" },
+  { href: "/candidate/cv-builder", label: "AI履歴書", icon: "pen" },
+  { href: "/candidate/jobs", label: "求人検索", icon: "search" },
+  { href: "/candidate/applications", label: "応募一覧", icon: "inbox" },
+  { href: "/candidate/messages", label: "メッセージ", icon: "message" },
 ];
 
 export default function CandidateLayout({
@@ -17,7 +17,7 @@ export default function CandidateLayout({
 }) {
   return (
     <SidebarLayout
-      title="Candidate"
+      title="候補者"
       variant="candidate"
       nav={nav}
     >
