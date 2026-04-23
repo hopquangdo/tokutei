@@ -333,14 +333,6 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
                     </div>
 
                     <div className="flex min-w-0 flex-col gap-3 border-t border-zinc-100 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0 dark:border-zinc-800/80">
-                      <div
-                        className="rounded-lg border border-red-200/80 bg-red-50/90 px-3 py-2 text-center text-xs font-medium text-red-900 dark:border-red-500/25 dark:bg-red-950/40 dark:text-red-200"
-                        title="Hoa hồng B2B / giới thiệu"
-                      >
-                        <p className="text-[10px] uppercase tracking-wide text-red-700/90 dark:text-red-300/90">Hoa hồng B2B</p>
-                        <p className="mt-0.5 text-sm font-bold tabular-nums">Chiết khấu {j.shareCommission}</p>
-                        <p className="text-[10px] font-normal opacity-90">(ứng viên / Agent sản phẩm)</p>
-                      </div>
                       <div className="space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
                         <p>
                           <span className="text-zinc-400">Lương tháng</span> — {j.salary}

@@ -8,7 +8,6 @@ function requiredRoleForPath(pathname: string): Role | null {
   if (pathname === "/candidate" || pathname.startsWith("/candidate/"))
     return "candidate";
   if (pathname === "/agent" || pathname.startsWith("/agent/")) return "agent";
-  if (pathname === "/admin" || pathname.startsWith("/admin/")) return "admin";
   return null;
 }
 
@@ -36,5 +35,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/candidate/:path*", "/agent/:path*", "/admin/:path*"],
+  matcher: ["/candidate/:path*", "/agent/:path*"],
 };

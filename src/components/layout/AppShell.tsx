@@ -67,7 +67,7 @@ function ShellBrand({
 
 function navItemActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
-  if (href === "/candidate" || href === "/agent" || href === "/admin") {
+  if (href === "/candidate" || href === "/agent") {
     return pathname === href;
   }
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -120,8 +120,8 @@ export function AppShell({
   children: React.ReactNode;
   /** Phiên đăng nhập (từ server) — menu avatar / đăng xuất */
   user?: { name: string; email: string; role: Role } | null;
-  /** Dành cho theme tương lai theo khu (candidate / agent / admin / demo) */
-  variant?: "candidate" | "agent" | "admin" | "demo";
+  /** Dành cho theme tương lai theo khu (candidate / agent / demo) */
+  variant?: "candidate" | "agent" | "demo";
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);

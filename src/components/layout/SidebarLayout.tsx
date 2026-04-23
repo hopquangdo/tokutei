@@ -14,7 +14,7 @@ export async function SidebarLayout({
   nav: AppNavItem[];
   children: React.ReactNode;
   badge?: string;
-  variant: "candidate" | "agent" | "admin";
+  variant: "candidate" | "agent";
 }) {
   const session = await getSession();
   const user = session

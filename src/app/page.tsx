@@ -12,11 +12,6 @@ const cards = [
     title: "Agent Site (登録支援機関)",
     desc: "Quản lý Job & ứng viên, pipeline, marketplace B2B, chat, tiến cử.",
   },
-  {
-    href: "/login?next=%2Fadmin",
-    title: "Admin (Willtec)",
-    desc: "Duyệt đối tác, marketing, lead Meta/IG, matching AI, hoa hồng.",
-  },
 ] as const;
 
 const roadmap = [
@@ -47,7 +42,7 @@ export default function Home() {
             Nền tảng tuyển dụng 特定技能
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--app-text-muted)]">
-            Tách khu theo vai trò (Ứng viên, 登録支援機関, Willtec), phân quyền rõ ràng — một
+            Tách khu theo vai trò (Ứng viên, 登録支援機関), phân quyền rõ ràng — một
             luồng ứng tuyển và tuyển dụng 特定技能 tập trung.
           </p>
         </div>
@@ -66,7 +61,7 @@ export default function Home() {
             </li>
           ))}
         </ul>
-        <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2">
           {cards.map((c) => (
             <Link key={c.href} href={c.href} className="group block">
               <Card

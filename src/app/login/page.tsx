@@ -27,13 +27,9 @@ export default async function LoginPage({
             Đăng nhập
           </h1>
           <p className="mb-6 text-center text-sm text-[var(--app-text-muted)]">
-            Truy cập theo khu: Ứng viên, Agent hoặc Admin
+            Truy cập theo khu: Ứng viên hoặc Agent
           </p>
           <Card padding="p-5 sm:p-6">
-            <p className="mb-4 rounded-lg border border-zinc-200/80 bg-slate-50/90 px-3 py-2 text-center text-xs text-[var(--app-text-muted)] dark:border-zinc-700/80 dark:bg-zinc-800/50">
-              Đăng nhập bằng một trong ba tài khoản bên dưới. Mật khẩu:{" "}
-              <span className="font-mono font-medium text-zinc-800 dark:text-zinc-200">demo123</span>
-            </p>
             <Suspense
               fallback={
                 <p className="text-center text-sm text-zinc-500">Tải form…</p>

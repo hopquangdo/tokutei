@@ -6,7 +6,7 @@ function isValidSession(data: unknown): data is SessionPayload {
   if (typeof d.sub !== "string" || typeof d.email !== "string" || typeof d.name !== "string")
     return false;
   const r = d.role;
-  return r === "candidate" || r === "agent" || r === "admin";
+  return r === "candidate" || r === "agent";
 }
 
 /** Edge + Node, UTF-8 (tên hiển thị tiếng Việt). */

@@ -1,4 +1,4 @@
-export type Role = "candidate" | "agent" | "admin";
+export type Role = "candidate" | "agent";
 
 export type SessionPayload = {
   sub: string;

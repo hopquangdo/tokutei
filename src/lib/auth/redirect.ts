@@ -6,8 +6,6 @@ export function defaultHomeForRole(role: Role): string {
       return "/candidate";
     case "agent":
       return "/agent";
-    case "admin":
-      return "/admin";
   }
 }
 

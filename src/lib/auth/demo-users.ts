@@ -24,13 +24,6 @@ export const DEMO_USERS: DemoUser[] = [
     name: "Nguyễn Thị Bảo (登録支援機関)",
     role: "agent",
   },
-  {
-    id: "u-admin",
-    email: "admin@demo.willtec",
-    password: "demo123",
-    name: "Willtec quản trị",
-    role: "admin",
-  },
 ];
 
 export function findDemoUser(

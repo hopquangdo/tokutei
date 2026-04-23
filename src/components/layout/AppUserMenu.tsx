@@ -9,7 +9,6 @@ import { defaultHomeForRole } from "@/lib/auth/redirect";
 const roleLabel: Record<Role, string> = {
   candidate: "Ứng viên",
   agent: "登録支援機関 (Agent)",
-  admin: "Willtec Admin",
 };
 
 function initials(name: string) {

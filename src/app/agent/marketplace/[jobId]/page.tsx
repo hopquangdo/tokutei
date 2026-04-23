@@ -24,6 +24,7 @@ export default async function AgentMarketplaceJobDetailPage({ params }: PageProp
       backHref="/agent/marketplace"
       backLabel="Quay lại marketplace"
       suggestedCandidates={suggested}
+      stickyPrimaryPanel
     />
   );
 }
