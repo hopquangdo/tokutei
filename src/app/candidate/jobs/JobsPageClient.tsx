@@ -257,26 +257,6 @@ export function JobsPageClient({ initialJobs }: JobsPageClientProps) {
 
       {/* Cột phải: thanh công cụ + danh sách */}
       <div className="min-w-0">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-1 text-zinc-400" aria-hidden>
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--app-border)] bg-zinc-50/80 text-xs dark:border-zinc-700 dark:bg-zinc-800/50" title="Lịch sử xem tin">
-              ◷
-            </span>
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--app-border)] bg-zinc-50/80 text-xs dark:border-zinc-700 dark:bg-zinc-800/50" title="Đã lưu">
-              ♡
-            </span>
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 bg-white text-blue-600 dark:border-zinc-600 dark:bg-zinc-800/80" title="Dạng danh sách">
-              ☰
-            </span>
-          </div>
-          <div className="flex items-center gap-1 text-sm text-zinc-500">
-            <span className="text-xs">Trang</span>
-            <span className="inline-flex min-w-[1.75rem] items-center justify-center rounded border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-800 dark:border-blue-500/30 dark:bg-blue-950/50 dark:text-blue-200">
-              1
-            </span>
-          </div>
-        </div>
-
         <ul className="space-y-4">
           {filtered.map((j) => {
             const owner = getAgent(j.ownerAgentId);

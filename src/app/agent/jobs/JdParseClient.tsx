@@ -79,177 +79,123 @@ export function JdParseClient() {
     setPosted(true);
   };
 
+  const requirementLines = form.requirements
+    .split(/\r?\n/)
+    .map((x) => x.trim())
+    .filter(Boolean);
+
   return (
-    <div
-      className="overflow-hidden rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] shadow-[var(--app-shadow-card)] dark:border-zinc-800/80 dark:bg-zinc-900/40"
-      role="region"
-      aria-label="Luồng tạo tin từ JD"
-    >
-      <div className="flex flex-wrap items-center gap-3 border-b border-[var(--app-border)] bg-gradient-to-r from-blue-50/90 to-transparent px-4 py-3 dark:from-blue-950/25 dark:border-zinc-800/80 dark:to-transparent">
-        <div
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white shadow-sm"
-          style={{ background: "var(--app-primary)" }}
-          aria-hidden
-        >
-          AI
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--app-text-muted)]">
-            Workflow
-          </p>
-          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-            ① Upload · ② Phân tích · ③ Chỉnh sửa &amp; đăng
-          </p>
-        </div>
-      </div>
-
-      {/* 1. Upload — dải gọn, kéo thả trên cùng một dòng hành động */}
-      <div className="border-b border-[var(--app-border)] bg-white/70 px-3 py-2 sm:px-4 sm:py-2.5 dark:border-zinc-800/80 dark:bg-zinc-900/25">
-        <div className="mb-1.5 flex flex-col gap-0.5 sm:mb-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
-          <h3
-            className="text-sm font-medium leading-tight text-zinc-800 dark:text-zinc-100"
-            id="jd-upload-heading"
-          >
-            Bước 1 — Tải tệp JD
-          </h3>
-          <p
-            className="text-[11px] leading-snug text-[var(--app-text-muted)]"
-            id="jd-upload-hint"
-          >
-            Chỉ lưu tên file trên trình duyệt. Phân tích AI chạy nội bộ — chưa tải file lên máy chủ.
-          </p>
-        </div>
-        <div
-          className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3"
-          role="group"
-          aria-labelledby="jd-upload-heading"
-          aria-describedby="jd-upload-hint"
-          aria-busy={isParsing}
-        >
+    <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_26rem] xl:items-start">
+      <div
+        className="overflow-hidden rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] shadow-[var(--app-shadow-card)] dark:border-zinc-800/80 dark:bg-zinc-900/40"
+        role="region"
+        aria-label="Khối upload và chỉnh sửa JD"
+      >
+        <div className="flex flex-wrap items-center gap-3 border-b border-[var(--app-border)] bg-gradient-to-r from-blue-50/90 to-transparent px-4 py-3 dark:from-blue-950/25 dark:border-zinc-800/80 dark:to-transparent">
           <div
-            className={
-              "focus-within:ring-2 focus-within:ring-[var(--app-primary)]/25 focus-within:ring-offset-1 focus-within:ring-offset-white dark:focus-within:ring-offset-zinc-900/40 " +
-              "flex min-w-0 flex-1 flex-col justify-center gap-1.5 rounded-lg border-2 border-dashed px-2.5 py-1.5 transition sm:flex-row sm:items-center sm:gap-2.5 sm:py-1.5 " +
-              (isDragging
-                ? "border-[var(--app-primary)] bg-blue-50/60 dark:bg-blue-950/30"
-                : "border-zinc-200/95 bg-zinc-50/50 dark:border-zinc-600/80 dark:bg-zinc-900/20")
-            }
-            onDragOver={(e) => {
-              e.preventDefault();
-              setIsDragging(true);
-            }}
-            onDragLeave={() => setIsDragging(false)}
-            onDrop={handleDrop}
-            aria-label="Vùng kéo thả tệp JD, hoặc dùng nút chọn file"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white shadow-sm"
+            style={{ background: "var(--app-primary)" }}
+            aria-hidden
           >
-            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1.5 sm:gap-2">
-              <span
-                className="shrink-0 text-xs text-zinc-600 dark:text-zinc-400"
-                aria-hidden
-                title="Kéo thả PDF hoặc Word (tối đa 10MB) vào vùng này"
-              >
-                Kéo thả hoặc
-              </span>
-              <label className="app-btn app-btn-secondary app-btn-sm cursor-pointer shrink-0">
-                Chọn file
-                <input
-                  type="file"
-                  className="sr-only"
-                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                  onChange={(e) => onFilePick(e.target.files?.[0] ?? null)}
-                />
-              </label>
-              <span className="hidden h-3 w-px bg-zinc-200 dark:bg-zinc-600 sm:inline" aria-hidden />
-              <span
-                className="min-w-0 flex-1 truncate text-left text-xs text-zinc-500 dark:text-zinc-500"
-                title={fileName ?? undefined}
-              >
-                {fileName ? (
-                  <span className="text-zinc-700 dark:text-zinc-300">
-                    <span className="font-medium text-emerald-700 dark:text-emerald-400" title="Đã chọn tệp">
-                      ✓{" "}
-                    </span>
-                    {fileName}
-                  </span>
-                ) : (
-                  <span className="italic">Chưa chọn tệp</span>
-                )}
-              </span>
-            </div>
-            <p
-              className="text-[10px] leading-tight text-zinc-500 dark:text-zinc-500 sm:ml-auto sm:shrink-0 sm:pl-1 sm:text-right"
-              title="Chấp nhận PDF, Word, tối đa 10MB"
-            >
-              .pdf, .doc, .docx · ≤10MB
-            </p>
+            AI
           </div>
-          <div className="flex w-full min-w-0 shrink-0 flex-col sm:w-[11.5rem] sm:justify-center">
-            <button
-              type="button"
-              onClick={onParse}
-              disabled={isParsing}
-              className="app-btn app-btn-primary inline-flex w-full items-center justify-center gap-2 disabled:pointer-events-none disabled:opacity-75"
-              title="Có thể bấm khi chưa chọn file — dùng bộ gợi ý sẵn. Không tải file lên máy chủ."
-            >
-              {isParsing && (
-                <span className="inline-flex shrink-0" aria-hidden>
-                  <svg
-                    className="h-4 w-4 animate-spin text-white/90"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-90"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                </span>
-              )}
-              {isParsing ? "Đang phân tích…" : "Phân tích JD (AI)"}
-            </button>
-            <p
-              className="mt-1 text-center text-[10px] leading-tight sm:text-left"
-              aria-live="polite"
-            >
-              {isParsing ? (
-                <span className="text-blue-600 dark:text-blue-400">
-                  Đang phân tích — soạn gợi ý mô tả, yêu cầu…
-                </span>
-              ) : (
-                <span className="text-zinc-500">Bấm sau khi chọn file, hoặc dùng mẫu nếu chưa chọn.</span>
-              )}
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--app-text-muted)]">
+              Job Composer
+            </p>
+            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+              Upload JD · Chỉnh form · Xem trước PDF
             </p>
           </div>
         </div>
-      </div>
 
-      {/* 2. Form nội dung — toàn chiều ngang, bên dưới upload */}
-      <div className="flex min-w-0 flex-col bg-slate-50/50 dark:bg-zinc-950/30">
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
-          <div className="border-b border-zinc-100/90 px-4 py-3 dark:border-zinc-800/80">
-            <h3 className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-              Bước 2 — Nội dung tin tuyển
+        <div className="border-b border-[var(--app-border)] bg-white/70 px-3 py-2 sm:px-4 sm:py-2.5 dark:border-zinc-800/80 dark:bg-zinc-900/25">
+          <div className="mb-1.5 flex flex-col gap-0.5 sm:mb-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
+            <h3 className="text-sm font-medium leading-tight text-zinc-800 dark:text-zinc-100" id="jd-upload-heading">
+              Import JD
             </h3>
-            <p className="mt-1 text-xs text-[var(--app-text-muted)]">
-              特定技能 — chỉnh sửa trước khi đăng. Nội dung từ AI mang tính gợi ý, cần rà soát.
+            <p className="text-[11px] leading-snug text-[var(--app-text-muted)]" id="jd-upload-hint">
+              Chỉ lưu tên file trên trình duyệt. Dữ liệu phân tích là mô phỏng nội bộ.
             </p>
-            {parseTick > 0 && (
-              <p
-                className="mt-2 text-xs text-emerald-700 dark:text-emerald-300"
-                role="status"
+          </div>
+          <div
+            className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3"
+            role="group"
+            aria-labelledby="jd-upload-heading"
+            aria-describedby="jd-upload-hint"
+            aria-busy={isParsing}
+          >
+            <div
+              className={
+                "focus-within:ring-2 focus-within:ring-[var(--app-primary)]/25 focus-within:ring-offset-1 focus-within:ring-offset-white dark:focus-within:ring-offset-zinc-900/40 " +
+                "flex min-w-0 flex-1 flex-col justify-center gap-1.5 rounded-lg border-2 border-dashed px-2.5 py-1.5 transition sm:flex-row sm:items-center sm:gap-2.5 sm:py-1.5 " +
+                (isDragging
+                  ? "border-[var(--app-primary)] bg-blue-50/60 dark:bg-blue-950/30"
+                  : "border-zinc-200/95 bg-zinc-50/50 dark:border-zinc-600/80 dark:bg-zinc-900/20")
+              }
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+              }}
+              onDragLeave={() => setIsDragging(false)}
+              onDrop={handleDrop}
+              aria-label="Vùng kéo thả tệp JD, hoặc dùng nút chọn file"
+            >
+              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1.5 sm:gap-2">
+                <span className="shrink-0 text-xs text-zinc-600 dark:text-zinc-400" aria-hidden>
+                  Kéo thả hoặc
+                </span>
+                <label className="app-btn app-btn-secondary app-btn-sm cursor-pointer shrink-0">
+                  Chọn file
+                  <input
+                    type="file"
+                    className="sr-only"
+                    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    onChange={(e) => onFilePick(e.target.files?.[0] ?? null)}
+                  />
+                </label>
+                <span className="hidden h-3 w-px bg-zinc-200 dark:bg-zinc-600 sm:inline" aria-hidden />
+                <span className="min-w-0 flex-1 truncate text-left text-xs text-zinc-500 dark:text-zinc-500" title={fileName ?? undefined}>
+                  {fileName ? (
+                    <span className="text-zinc-700 dark:text-zinc-300">
+                      <span className="font-medium text-emerald-700 dark:text-emerald-400">✓ </span>
+                      {fileName}
+                    </span>
+                  ) : (
+                    <span className="italic">Chưa chọn tệp</span>
+                  )}
+                </span>
+              </div>
+              <p className="text-[10px] leading-tight text-zinc-500 dark:text-zinc-500 sm:ml-auto sm:shrink-0 sm:pl-1 sm:text-right">
+                .pdf, .doc, .docx · ≤10MB
+              </p>
+            </div>
+            <div className="flex w-full min-w-0 shrink-0 flex-col sm:w-[11.5rem] sm:justify-center">
+              <button
+                type="button"
+                onClick={onParse}
+                disabled={isParsing}
+                className="app-btn app-btn-primary inline-flex w-full items-center justify-center gap-2 disabled:pointer-events-none disabled:opacity-75"
               >
-                Đã áp dụng kết quả phân tích lần {parseTick} — kiểm tra lại trước khi đăng.
+                {isParsing ? "Đang phân tích…" : "Phân tích JD (AI)"}
+              </button>
+              <p className="mt-1 text-center text-[10px] leading-tight sm:text-left" aria-live="polite">
+                {isParsing ? (
+                  <span className="text-blue-600 dark:text-blue-400">Đang sinh dữ liệu mẫu từ JD…</span>
+                ) : (
+                  <span className="text-zinc-500">Bấm để tạo nội dung gợi ý cho form.</span>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col bg-slate-50/50 dark:bg-zinc-950/30">
+          <div className="border-b border-zinc-100/90 px-4 py-3 dark:border-zinc-800/80">
+            <h3 className="text-sm font-medium text-zinc-800 dark:text-zinc-100">Thông tin cơ bản</h3>
+            {parseTick > 0 && (
+              <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-300" role="status">
+                Đã áp dụng kết quả phân tích lần {parseTick}.
               </p>
             )}
             {posted && (
@@ -257,12 +203,11 @@ export function JdParseClient() {
                 className="mt-2 rounded-lg border border-emerald-200/80 bg-emerald-50/90 px-3 py-2 text-xs text-emerald-900 dark:border-emerald-800/50 dark:bg-emerald-950/30 dark:text-emerald-200"
                 role="status"
               >
-                Đã gửi bản ghi duyệt nội bộ. Cập nhật sẽ hiển thị tại &quot;Tin bạn quản lý&quot; sau khi
-                đồng bộ hệ thống.
+                Đã gửi bản ghi duyệt nội bộ.
               </p>
             )}
           </div>
-          <div className="max-h-[min(70dvh,48rem)] space-y-3 overflow-y-auto px-4 py-4">
+          <div className="max-h-[min(75dvh,56rem)] space-y-3 overflow-y-auto px-4 py-4">
             <Field label="職名 / Tiêu đề tin" required>
               <input
                 className="app-input w-full"
@@ -405,10 +350,79 @@ export function JdParseClient() {
               >
                 Xóa form
               </button>
+              <button type="button" className="app-btn app-btn-secondary app-btn-sm" onClick={() => window.print()}>
+                Xuất PDF
+              </button>
             </div>
           </div>
         </form>
       </div>
+
+      <aside className="xl:sticky xl:top-4 xl:self-start">
+        <div className="overflow-hidden rounded-2xl border border-[var(--app-border)] bg-[var(--app-surface-elevated)] shadow-[var(--app-shadow-card)] dark:border-zinc-800/80 dark:bg-zinc-900/40">
+          <div className="flex items-center justify-between border-b border-[var(--app-border)] px-4 py-3 dark:border-zinc-800/80">
+            <div>
+              <p className="text-xs font-semibold text-zinc-500">Xem trước</p>
+              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Bản in PDF</p>
+            </div>
+            <button type="button" className="app-btn app-btn-secondary app-btn-sm" onClick={() => window.print()}>
+              PDF
+            </button>
+          </div>
+          <div className="max-h-[min(75dvh,56rem)] overflow-y-auto bg-white p-4 text-sm dark:bg-zinc-950/60">
+            <div className="rounded-xl border border-zinc-200/90 dark:border-zinc-700/80">
+              <div className="border-b border-zinc-200/90 px-3 py-2 dark:border-zinc-700/80">
+                <p className="text-xs text-zinc-500">ID công việc: {fileName ? "IMPORT" : "DRAFT"}</p>
+                <h4 className="mt-1 text-base font-semibold text-app-primary">{form.title || "Chưa có tiêu đề"}</h4>
+                <p className="mt-1 text-xs text-zinc-500">
+                  {form.industry || "Ngành"} · {form.city || "Địa điểm"}
+                </p>
+              </div>
+              <div className="space-y-3 px-3 py-3">
+                <PreviewRow label="Mức lương" value={form.salary} />
+                <PreviewRow label="Loại hợp đồng" value={form.workType} />
+                <PreviewRow label="JLPT yêu cầu" value={form.requiredJlpt} />
+                <PreviewRow label="Số lượng" value={form.headcount} />
+                <PreviewRow label="Thử việc" value={form.trialPeriod} />
+                <PreviewRow label="Giờ làm việc" value={form.workHours} multiline />
+                <PreviewRow label="Phúc lợi" value={form.benefits} multiline />
+                <PreviewRow label="Mô tả công việc" value={form.workContent} multiline />
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Yêu cầu ứng tuyển</p>
+                  {requirementLines.length > 0 ? (
+                    <ul className="mt-1.5 list-disc space-y-1 pl-4 text-sm text-zinc-700 dark:text-zinc-300">
+                      {requirementLines.map((line, i) => (
+                        <li key={`${line}-${i}`}>{line}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-1 text-sm italic text-zinc-400">Chưa có nội dung</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function PreviewRow({
+  label,
+  value,
+  multiline = false,
+}: {
+  label: string;
+  value: string;
+  multiline?: boolean;
+}) {
+  return (
+    <div>
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">{label}</p>
+      <p className={["mt-1 text-sm text-zinc-700 dark:text-zinc-300", multiline ? "whitespace-pre-wrap" : ""].join(" ")}>
+        {value?.trim() ? value : "—"}
+      </p>
     </div>
   );
 }
